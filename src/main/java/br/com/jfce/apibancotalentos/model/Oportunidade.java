@@ -8,18 +8,18 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 
-
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Perfil extends AbstractEntity{
-
-    private String nome;
-    private LocalDate dataNascimento;
-    private Genero genero;
-    private boolean isDeficiente;
-    private String etinia;
+public class Oportunidade extends AbstractEntity{
+    private String titulo;
+    private LocalDate dataInicial;
+    private LocalDate dataFinal;
+    private String descricao;
+    private String triagem;
     private String habilidades;
+    private String email;
+    private String informacoes;
 }
