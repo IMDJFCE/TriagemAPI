@@ -22,7 +22,7 @@ public abstract class AbstractService<E extends AbstractEntity, R extends Generi
 
     @Override
     public E create(E entity)    {
-        return  repository.save(entity);
+        return repository.save(entity);
     }
 
     @Override
