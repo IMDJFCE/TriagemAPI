@@ -27,7 +27,15 @@ public abstract class AbstractService<E extends AbstractEntity, R extends Generi
 
     @Override
     public E update(E entity){
-        return repository.save(entity);
+        Optional<E> entityOptional = repository.findById(entity.getId());
+        if(entityOptional.isPresent()){
+            E existingEntity = entityOptional.get();
+            existingEntity.setUpdatedAt(LocalDateTime.now());
+            existingEntity.update(entity);
+            return repository.save((existingEntity));
+        }else{
+            throw new EntityNotFoundException("Not found");
+        }
     }
 
     @Override

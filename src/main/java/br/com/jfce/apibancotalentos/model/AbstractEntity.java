@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public abstract class AbstractEntity implements Serializable {
+public abstract class AbstractEntity<E> implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
@@ -28,4 +28,7 @@ public abstract class AbstractEntity implements Serializable {
 
 
     private LocalDateTime deletedAt;
+
+    public abstract void update(E source);
+    public abstract E createNewInstance();
 }
