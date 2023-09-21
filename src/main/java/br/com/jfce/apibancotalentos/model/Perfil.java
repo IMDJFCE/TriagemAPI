@@ -23,13 +23,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Perfil extends AbstractEntity<Perfil>{
 
-    @NotBlank(message = "O campo nome não pode estar em branco.")
-    @Size(max = 100, message = "O campo nome deve ter no máximo 100 caracteres.")
-    private String nome;
-
-    @NotNull(message = "O campo data de nascimento não pode ser nulo.")
-    private LocalDate dataNascimento;
-
     @Enumerated(EnumType.STRING)
     @NotNull(message = "O campo gênero não pode ser nulo.")
     private Genero genero;
@@ -46,8 +39,6 @@ public class Perfil extends AbstractEntity<Perfil>{
 
     @Override
     public void update(Perfil source) {
-        this.nome = source.getNome();
-        this.dataNascimento = source.getDataNascimento();
         this.genero = source.getGenero();
         this.isDeficiente = source.isDeficiente();
         this.raca = source.getRaca();
