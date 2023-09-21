@@ -1,6 +1,13 @@
 package br.com.jfce.apibancotalentos.model;
 
+import br.com.jfce.apibancotalentos.model.Enums.Genero;
+import br.com.jfce.apibancotalentos.model.Enums.Raca;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,11 +23,23 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Perfil extends AbstractEntity<Perfil>{
 
+    @NotBlank(message = "O campo nome não pode estar em branco.")
+    @Size(max = 100, message = "O campo nome deve ter no máximo 100 caracteres.")
     private String nome;
+
+    @NotNull
     private LocalDate dataNascimento;
+
+    @Enumerated(EnumType.STRING)
     private Genero genero;
+
+    @NotNull
     private boolean isDeficiente;
-    private String etinia;
+
+    @Enumerated(EnumType.STRING)
+    private Raca raca;
+
+    @NotBlank(message = "O campo habilidades não pode estar em branco.")
     private String habilidades;
 
     @Override
@@ -29,7 +48,7 @@ public class Perfil extends AbstractEntity<Perfil>{
         this.dataNascimento = source.getDataNascimento();
         this.genero = source.getGenero();
         this.isDeficiente = source.isDeficiente();
-        this.etinia = source.getEtinia();
+        this.raca = source.getRaca();
         this.habilidades = source.getHabilidades();
     }
 
