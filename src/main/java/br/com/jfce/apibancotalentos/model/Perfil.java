@@ -27,16 +27,18 @@ public class Perfil extends AbstractEntity<Perfil>{
     @Size(max = 100, message = "O campo nome deve ter no máximo 100 caracteres.")
     private String nome;
 
-    @NotNull
+    @NotNull(message = "O campo data de nascimento não pode ser nulo.")
     private LocalDate dataNascimento;
 
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "O campo gênero não pode ser nulo.")
     private Genero genero;
 
-    @NotNull
+    @NotNull(message = "O campo deficiente não pode ser nulo.")
     private boolean isDeficiente;
 
     @Enumerated(EnumType.STRING)
+    @NotNull(message = "O campo raça não pode ser nulo.")
     private Raca raca;
 
     @NotBlank(message = "O campo habilidades não pode estar em branco.")
