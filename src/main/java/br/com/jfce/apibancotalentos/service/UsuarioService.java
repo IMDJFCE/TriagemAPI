@@ -1,5 +1,8 @@
 package br.com.jfce.apibancotalentos.service;
 
+import br.com.jfce.apibancotalentos.dto.UsuarioRequestDTO;
+import br.com.jfce.apibancotalentos.dto.UsuarioResponseDTO;
+import br.com.jfce.apibancotalentos.dto.mapper.UsuarioMapper;
 import br.com.jfce.apibancotalentos.model.Usuario;
 import br.com.jfce.apibancotalentos.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -11,49 +14,59 @@ import java.util.Optional;
 
 @Service
 public class UsuarioService{
-    private UsuarioRepository repository;
+    private final UsuarioRepository repository;
+    private final UsuarioMapper usuarioMapper;
 
-    public UsuarioService(UsuarioRepository repository) {
+    public UsuarioService(UsuarioRepository repository, UsuarioMapper usuarioMapper) {
         this.repository = repository;
+        this.usuarioMapper = usuarioMapper;
     }
 
-    public List<Usuario> findAll(){
-        return repository.findAll();
+    public List<UsuarioResponseDTO> findAll(){
+        return repository.findAll()
+                .stream()
+                .map(usuarioMapper::toUsuarioResponseDTO)
+                .toList();
     }
 
-    public Usuario getById(String id){
+    public UsuarioResponseDTO getById(String id){
         Optional<Usuario> usuario = repository.findById(id);
-        if(usuario.isPresent()){
-            return usuario.get();
-        }else{
+        if(usuario.isEmpty()){
             throw new EntityNotFoundException("Not found");
         }
+
+        return usuarioMapper.toUsuarioResponseDTO(usuario.get());
     }
 
-    public Usuario create(Usuario usuario){
-        return repository.save(usuario);
+    public UsuarioResponseDTO create(UsuarioRequestDTO usuario){
+        Usuario created = repository.save(usuarioMapper.toUsuario(usuario));
+        return usuarioMapper.toUsuarioResponseDTO(created);
     }
 
-    public Usuario update(String id, Usuario usuario){
+    public UsuarioResponseDTO update(String id, UsuarioRequestDTO usuarioRequest){
+        Usuario usuario = usuarioMapper.toUsuario(usuarioRequest);
         Optional<Usuario> usuarioOptional = repository.findById(id);
-        if(usuarioOptional.isPresent()){
-            usuario.setId(id);
-            usuario.setCreatedAt(usuarioOptional.get().getCreatedAt());
-            usuario.setDeletedAt(usuarioOptional.get().getDeletedAt());
-            usuario.setUpdatedAt(LocalDateTime.now());
-            return repository.save(usuario);
-        }else{
+        if(usuarioOptional.isEmpty()) {
             throw new EntityNotFoundException("Not found");
         }
+
+        usuario.setId(id);
+        usuario.setCreatedAt(usuarioOptional.get().getCreatedAt());
+        usuario.setDeletedAt(usuarioOptional.get().getDeletedAt());
+        usuario.setUpdatedAt(LocalDateTime.now());
+        usuario.setSenha(usuarioOptional.get().getSenha());
+        usuario = repository.save(usuario);
+        return usuarioMapper.toUsuarioResponseDTO(usuario);
     }
 
     public void delete(String id){
         Optional<Usuario> usuario = repository.findById(id);
-        if(usuario.isPresent()){
-            usuario.get().setDeletedAt(LocalDateTime.now());
-            repository.save(usuario.get());
-        }else{
+
+        if(usuario.isEmpty()){
             throw new EntityNotFoundException("Not found");
         }
+
+        usuario.get().setDeletedAt(LocalDateTime.now());
+        repository.save(usuario.get());
     }
 }

@@ -1,5 +1,7 @@
 package br.com.jfce.apibancotalentos.controller;
 
+import br.com.jfce.apibancotalentos.dto.UsuarioRequestDTO;
+import br.com.jfce.apibancotalentos.dto.UsuarioResponseDTO;
 import br.com.jfce.apibancotalentos.model.Usuario;
 import br.com.jfce.apibancotalentos.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -24,7 +26,7 @@ public class UsuarioController {
             summary = "Listar Todos os Usuários",
             description = "Este endpoint retorna uma lista de todos os usuários existentes."
     )
-    public List<Usuario> listAll(){
+    public List<UsuarioResponseDTO> listAll(){
         return service.findAll();
     }
 
@@ -33,7 +35,7 @@ public class UsuarioController {
             summary = "Obter um Usuário por ID",
             description = "Este endpoint retorna um usuário específico com base no ID fornecido."
     )
-    public Usuario getById(@PathVariable String id){
+    public UsuarioResponseDTO getById(@PathVariable String id){
         return service.getById(id);
     }
 
@@ -42,7 +44,7 @@ public class UsuarioController {
             summary = "Criar um Novo Usuário",
             description = "Este endpoint permite criar um novo usuário."
     )
-    public Usuario create(@RequestBody Usuario usuario){
+    public UsuarioResponseDTO create(@RequestBody UsuarioRequestDTO usuario){
         return service.create(usuario);
     }
 
@@ -51,8 +53,8 @@ public class UsuarioController {
             summary = "Atualizar um Usuário Existente",
             description = "Este endpoint permite atualizar os dados de um usuário existente."
     )
-    public Usuario update(@PathVariable String id, @RequestBody Usuario usuario){
-        return service.update(id, usuario);
+    public UsuarioResponseDTO update(@PathVariable String id, @RequestBody UsuarioRequestDTO usuarioRequest){
+        return service.update(id, usuarioRequest);
     }
 
     @DeleteMapping("{id}")

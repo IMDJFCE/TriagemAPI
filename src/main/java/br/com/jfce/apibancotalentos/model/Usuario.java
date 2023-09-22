@@ -44,8 +44,8 @@ public class Usuario extends AbstractEntity{
     @Size(max = 50, message = "O campo matrícula deve ter no máximo 50 caracteres.")
     private String matricula;
 
-    @NotBlank(message = "O campo vínculo não pode estar em branco.")
-    @Size(max = 15, message = "O campo vínculo deve ter no máximo 15 caracteres.")
+    @NotBlank(message = "O campo tipo não pode estar em branco.")
+    @Size(max = 15, message = "O campo tipo deve ter no máximo 15 caracteres.")
     private String tipo;
 
     @OneToOne(cascade = CascadeType.PERSIST)
