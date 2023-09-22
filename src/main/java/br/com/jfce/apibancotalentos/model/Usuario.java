@@ -1,6 +1,6 @@
 package br.com.jfce.apibancotalentos.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +17,12 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Usuario extends AbstractEntity<Usuario>{
+public class Usuario extends AbstractEntity{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "usuario_id")
+    private String id;
 
     @NotBlank(message = "O campo nome não pode estar em branco.")
     @Size(max = 100, message = "O campo nome deve ter no máximo 100 caracteres.")
@@ -43,21 +48,4 @@ public class Usuario extends AbstractEntity<Usuario>{
     @Size(max = 15, message = "O campo vínculo deve ter no máximo 15 caracteres.")
     private String vinculo;
 
-
-    @Override
-    public void update(Usuario source) {
-        this.nome = source.getNome();
-        this.email = source.getEmail();
-        this.senha = source.getSenha();
-        this.dataNascimento = source.getDataNascimento();
-        this.matricula = source.getMatricula();
-        this.vinculo = source.getVinculo();
-    }
-
-    @Override
-    public Usuario createNewInstance() {
-        Usuario newInstance = new Usuario();
-        newInstance.update(this);
-        return newInstance;
-    }
 }
