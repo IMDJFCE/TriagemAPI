@@ -47,4 +47,8 @@ public class Usuario extends AbstractEntity{
     @NotBlank(message = "O campo vínculo não pode estar em branco.")
     @Size(max = 15, message = "O campo vínculo deve ter no máximo 15 caracteres.")
     private String tipo;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "perfil_id")
+    private Perfil perfil;
 }
