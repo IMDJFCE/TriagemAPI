@@ -24,4 +24,7 @@ public class Habilidade extends AbstractEntity{
     @Size(max = 50, message = "O campo habilidade deve ter no máximo 50 caracteres.")
     private String habilidade;
 
+    @NotBlank
+    @Size(max = 2, message = "O campo peso deve ter no máximo 2 caracteres.")
+    private String peso;
 }
