@@ -42,8 +42,8 @@ public class UsuarioController {
             summary = "Criar um Novo Usuário",
             description = "Este endpoint permite criar um novo usuário."
     )
-    public void create(@RequestBody Usuario usuario){
-        service.create(usuario);
+    public Usuario create(@RequestBody Usuario usuario){
+        return service.create(usuario);
     }
 
     @PutMapping("{id}")

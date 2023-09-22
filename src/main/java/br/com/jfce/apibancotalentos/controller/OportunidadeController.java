@@ -42,8 +42,8 @@ public class OportunidadeController {
             summary = "Criar uma Nova Oportunidade",
             description = "Este endpoint permite criar uma nova oportunidade."
     )
-    public void create(@RequestBody Oportunidade oportunidade){
-        service.create(oportunidade);
+    public Oportunidade create(@RequestBody Oportunidade oportunidade){
+        return service.create(oportunidade);
     }
 
     @PutMapping("{id}")

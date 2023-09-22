@@ -42,8 +42,8 @@ public class PerfilController {
             summary = "Criar um Novo Perfil",
             description = "Este endpoint permite criar um novo perfil."
     )
-    public void create(@RequestBody Perfil perfil){
-        service.create(perfil);
+    public Perfil create(@RequestBody Perfil perfil){
+        return service.create(perfil);
     }
 
     @PutMapping("{id}")

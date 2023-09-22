@@ -46,6 +46,5 @@ public class Usuario extends AbstractEntity{
 
     @NotBlank(message = "O campo vínculo não pode estar em branco.")
     @Size(max = 15, message = "O campo vínculo deve ter no máximo 15 caracteres.")
-    private String vinculo;
-
+    private String tipo;
 }
