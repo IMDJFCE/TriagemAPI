@@ -46,13 +46,13 @@ public class OportunidadeController {
         service.create(oportunidade);
     }
 
-    @PutMapping
+    @PutMapping("{id}")
     @Operation(
             summary = "Atualizar uma Oportunidade Existente",
             description = "Este endpoint permite atualizar os dados de uma oportunidade existente."
     )
-    public Oportunidade update(@RequestBody Oportunidade oportunidade){
-        return service.update(oportunidade);
+    public Oportunidade update(@PathVariable String id, @RequestBody Oportunidade oportunidade){
+        return service.update(id, oportunidade);
     }
 
     @DeleteMapping("{id}")

@@ -1,6 +1,5 @@
 package br.com.jfce.apibancotalentos.controller;
 
-import br.com.jfce.apibancotalentos.model.Oportunidade;
 import br.com.jfce.apibancotalentos.model.Usuario;
 import br.com.jfce.apibancotalentos.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,13 +46,13 @@ public class UsuarioController {
         service.create(usuario);
     }
 
-    @PutMapping
+    @PutMapping("{id}")
     @Operation(
             summary = "Atualizar um Usuário Existente",
             description = "Este endpoint permite atualizar os dados de um usuário existente."
     )
-    public Usuario update(@RequestBody Usuario usuario){
-        return service.update(usuario);
+    public Usuario update(@PathVariable String id, @RequestBody Usuario usuario){
+        return service.update(id, usuario);
     }
 
     @DeleteMapping("{id}")

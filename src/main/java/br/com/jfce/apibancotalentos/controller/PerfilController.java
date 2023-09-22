@@ -46,13 +46,13 @@ public class PerfilController {
         service.create(perfil);
     }
 
-    @PutMapping
+    @PutMapping("{id}")
     @Operation(
             summary = "Atualizar um Perfil Existente",
             description = "Este endpoint permite atualizar os dados de um perfil existente."
     )
-    public Perfil update(@RequestBody Perfil perfil){
-        return service.update(perfil);
+    public Perfil update(@PathVariable String id, @RequestBody Perfil perfil){
+        return service.update(id, perfil);
     }
 
     @DeleteMapping("{id}")

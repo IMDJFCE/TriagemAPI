@@ -1,6 +1,6 @@
 package br.com.jfce.apibancotalentos.model;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,7 +17,13 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Oportunidade extends AbstractEntity<Oportunidade>{
+public class Oportunidade extends AbstractEntity{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "oportunidade_id")
+    private String id;
+
     @NotBlank(message = "O campo título não pode estar em branco.")
     @Size(max = 100, message = "O campo titulo deve ter no máximo 100 caracteres.")
     private String titulo;
@@ -44,23 +50,4 @@ public class Oportunidade extends AbstractEntity<Oportunidade>{
 
     @NotBlank(message = "O campo informações não pode estar em branco.")
     private String informacoes;
-
-    @Override
-    public void update(Oportunidade source) {
-        this.titulo = source.getTitulo();
-        this.dataInicial = source.getDataInicial();
-        this.dataFinal = source.getDataFinal();
-        this.descricao = source.getDescricao();
-        this.triagem = source.getTriagem();
-        this.habilidades = source.getHabilidades();
-        this.email = source.getEmail();
-        this.informacoes = source.getInformacoes();
-    }
-
-    @Override
-    public Oportunidade createNewInstance() {
-        Oportunidade newInstance = new Oportunidade();
-        newInstance.update(this);
-        return newInstance;
-    }
 }
