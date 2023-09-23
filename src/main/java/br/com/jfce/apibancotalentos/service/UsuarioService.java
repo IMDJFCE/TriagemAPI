@@ -44,12 +44,12 @@ public class UsuarioService{
     }
 
     public UsuarioResponseDTO update(String id, UsuarioRequestDTO usuarioRequest){
-        Usuario usuario = usuarioMapper.toUsuario(usuarioRequest);
         Optional<Usuario> usuarioOptional = repository.findById(id);
         if(usuarioOptional.isEmpty()) {
             throw new EntityNotFoundException("Not found");
         }
 
+        Usuario usuario = usuarioMapper.toUsuario(usuarioRequest);
         usuario.setId(id);
         usuario.setCreatedAt(usuarioOptional.get().getCreatedAt());
         usuario.setDeletedAt(usuarioOptional.get().getDeletedAt());
