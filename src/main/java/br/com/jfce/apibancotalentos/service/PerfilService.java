@@ -16,9 +16,9 @@ import java.util.Optional;
 
 @Service
 public class PerfilService{
-    private PerfilRepository perfilRepository;
-    private UsuarioRepository usuarioRepository;
-    private PerfilMapper perfilMapper;
+    private final PerfilRepository perfilRepository;
+    private final UsuarioRepository usuarioRepository;
+    private final PerfilMapper perfilMapper;
 
     public PerfilService(PerfilRepository perfilRepository, UsuarioRepository usuarioRepository, PerfilMapper perfilMapper) {
         this.perfilRepository = perfilRepository;
