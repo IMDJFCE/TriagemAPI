@@ -1,5 +1,8 @@
 package br.com.jfce.apibancotalentos.service;
 
+import br.com.jfce.apibancotalentos.dto.OportunidadeRequestDTO;
+import br.com.jfce.apibancotalentos.dto.OportunidadeResponseDTO;
+import br.com.jfce.apibancotalentos.dto.mapper.OportunidadeMapper;
 import br.com.jfce.apibancotalentos.model.Oportunidade;
 import br.com.jfce.apibancotalentos.repository.OportunidadeRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -11,49 +14,57 @@ import java.util.Optional;
 
 @Service
 public class OportunidadeService{
-    private OportunidadeRepository repository;
+    private final OportunidadeRepository repository;
+    private final OportunidadeMapper oportunidadeMapper;
 
-    public OportunidadeService(OportunidadeRepository repository) {
+    public OportunidadeService(OportunidadeRepository repository, OportunidadeMapper oportunidadeMapper) {
         this.repository = repository;
+        this.oportunidadeMapper = oportunidadeMapper;
     }
 
-    public List<Oportunidade> findAll(){
-        return repository.findAll();
+    public List<OportunidadeResponseDTO> findAll(){
+        return repository.findAll()
+                .stream()
+                .map(oportunidadeMapper::toOportunidadeResponseDTO)
+                .toList();
     }
 
-    public Oportunidade getById(String id){
+    public OportunidadeResponseDTO getById(String id){
         Optional<Oportunidade> oportunidade = repository.findById(id);
-        if(oportunidade.isPresent()){
-            return oportunidade.get();
-        }else{
-            throw new EntityNotFoundException("Not found");
+        if(oportunidade.isEmpty()){
+            throw new EntityNotFoundException("Oportunidade Not found");
         }
+
+        return oportunidadeMapper.toOportunidadeResponseDTO(oportunidade.get());
     }
 
-    public Oportunidade create(Oportunidade oportunidade){
-        return repository.save(oportunidade);
+    public OportunidadeResponseDTO create(OportunidadeRequestDTO oportunidade){
+        Oportunidade created = repository.save(oportunidadeMapper.toOportunidade(oportunidade));
+        return oportunidadeMapper.toOportunidadeResponseDTO(created);
     }
 
-    public Oportunidade update(String id, Oportunidade oportunidade){
+    public OportunidadeResponseDTO update(String id, OportunidadeRequestDTO oportunidadeRequest){
         Optional<Oportunidade> oportunidadeOptional = repository.findById(id);
-        if(oportunidadeOptional.isPresent()){
-            oportunidade.setId(id);
-            oportunidade.setCreatedAt(oportunidadeOptional.get().getCreatedAt());
-            oportunidade.setDeletedAt(oportunidadeOptional.get().getDeletedAt());
-            oportunidade.setUpdatedAt(LocalDateTime.now());
-            return repository.save(oportunidade);
-        }else{
-            throw new EntityNotFoundException("Not found");
+        if(oportunidadeOptional.isEmpty()){
+            throw new EntityNotFoundException("Oportunidade Not found");
         }
+
+        Oportunidade oportunidade = oportunidadeMapper.toOportunidade(oportunidadeRequest);
+        oportunidade.setId(id);
+        oportunidade.setCreatedAt(oportunidadeOptional.get().getCreatedAt());
+        oportunidade.setDeletedAt(oportunidadeOptional.get().getDeletedAt());
+        oportunidade.setUpdatedAt(LocalDateTime.now());
+        oportunidade = repository.save(oportunidade);
+        return oportunidadeMapper.toOportunidadeResponseDTO(oportunidade);
     }
 
     public void delete(String id){
         Optional<Oportunidade> oportunidade = repository.findById(id);
-        if(oportunidade.isPresent()){
-            oportunidade.get().setDeletedAt(LocalDateTime.now());
-            repository.save(oportunidade.get());
-        }else{
-            throw new EntityNotFoundException("Not found");
+        if(oportunidade.isEmpty()){
+            throw new EntityNotFoundException("Oportunidade Not found");
         }
+
+        oportunidade.get().setDeletedAt(LocalDateTime.now());
+        repository.save(oportunidade.get());
     }
 }
