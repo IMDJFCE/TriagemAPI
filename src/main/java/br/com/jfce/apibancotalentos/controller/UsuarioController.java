@@ -6,6 +6,7 @@ import br.com.jfce.apibancotalentos.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ import java.util.List;
 public class UsuarioController {
     private UsuarioService service;
 
-    @GetMapping
+    /*@GetMapping
     @Operation(
             summary = "Listar Todos os Usuários",
             description = "Este endpoint retorna uma lista de todos os usuários existentes."
@@ -29,6 +30,18 @@ public class UsuarioController {
     @ResponseStatus(HttpStatus.OK)
     public List<UsuarioResponseDTO> listAll(){
         return service.findAll();
+    }*/
+
+    @GetMapping
+    @Operation(
+            summary = "Listar Todos os Usuários",
+            description = "Este endpoint retorna uma lista de todos os usuários existentes."
+                        + "Ele suporta paginação e ordenação dos resultados através dos parâmetros 'page' e 'sort'. "
+                        + "Os resultados são retornados em formato JSON com informações detalhadas sobre cada usuario."
+    )
+    @ResponseStatus(HttpStatus.OK)
+    public List<UsuarioResponseDTO> listAll(Pageable page){
+        return service.findAll(page);
     }
 
     @GetMapping("{id}")

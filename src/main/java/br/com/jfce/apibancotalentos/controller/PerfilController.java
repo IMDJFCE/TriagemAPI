@@ -6,6 +6,7 @@ import br.com.jfce.apibancotalentos.service.PerfilService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +22,7 @@ import java.util.List;
 public class PerfilController {
     private PerfilService service;
 
-    @GetMapping("usuarios/perfis/")
+    /*@GetMapping("usuarios/perfis/")
     @Operation(
             summary = "Listar Todos os Perfis",
             description = "Este endpoint retorna uma lista de todos os perfis disponíveis"
@@ -29,6 +30,18 @@ public class PerfilController {
     @ResponseStatus(HttpStatus.OK)
     public List<PerfilResponseDTO> listAll(){
         return service.findAll();
+    }*/
+
+    @GetMapping("usuarios/perfis/")
+    @Operation(
+            summary = "Listar Todos os Perfis",
+            description = "Este endpoint retorna uma lista de todos os perfis disponíveis"
+                        + "Ele suporta paginação e ordenação dos resultados através dos parâmetros 'page' e 'sort'. "
+                        + "Os resultados são retornados em formato JSON com informações detalhadas sobre cada perfil."
+    )
+    @ResponseStatus(HttpStatus.OK)
+    public List<PerfilResponseDTO> listAll(Pageable page){
+        return service.findAll(page);
     }
 
     @GetMapping("usuarios/perfis/{id}")

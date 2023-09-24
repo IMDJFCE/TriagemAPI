@@ -5,6 +5,8 @@ import br.com.jfce.apibancotalentos.dto.OportunidadeResponseDTO;
 import br.com.jfce.apibancotalentos.dto.mapper.OportunidadeMapper;
 import br.com.jfce.apibancotalentos.model.Oportunidade;
 import br.com.jfce.apibancotalentos.repository.OportunidadeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -26,6 +28,14 @@ public class OportunidadeService{
     public List<OportunidadeResponseDTO> findAll(){
         return repository.findAll()
                 .stream()
+                .map(oportunidadeMapper::toOportunidadeResponseDTO)
+                .toList();
+    }
+
+    public List<OportunidadeResponseDTO> findAll(Pageable page){
+        Page<Oportunidade> oportunidadePage = repository.findAll(page);
+        List<Oportunidade> oportunidadeList = oportunidadePage.getContent();
+        return oportunidadeList.stream()
                 .map(oportunidadeMapper::toOportunidadeResponseDTO)
                 .toList();
     }

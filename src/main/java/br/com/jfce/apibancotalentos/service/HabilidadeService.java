@@ -5,6 +5,8 @@ import br.com.jfce.apibancotalentos.dto.HabilidadeResponseDTO;
 import br.com.jfce.apibancotalentos.dto.mapper.HabilidadeMapper;
 import br.com.jfce.apibancotalentos.model.Habilidade;
 import br.com.jfce.apibancotalentos.repository.HabilidadeRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -26,6 +28,14 @@ public class HabilidadeService {
     public List<HabilidadeResponseDTO> findAll(){
         return habilidadeRepository.findAll()
                 .stream()
+                .map(habilidadeMapper::toHabilidadeResponseDTO)
+                .toList();
+    }
+
+    public List<HabilidadeResponseDTO> findAll(Pageable page){
+        Page<Habilidade> habilidadePage = habilidadeRepository.findAll(page);
+        List<Habilidade> habilidadeList = habilidadePage.getContent();
+        return habilidadeList.stream()
                 .map(habilidadeMapper::toHabilidadeResponseDTO)
                 .toList();
     }

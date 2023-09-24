@@ -5,6 +5,8 @@ import br.com.jfce.apibancotalentos.dto.UsuarioResponseDTO;
 import br.com.jfce.apibancotalentos.dto.mapper.UsuarioMapper;
 import br.com.jfce.apibancotalentos.model.Usuario;
 import br.com.jfce.apibancotalentos.repository.UsuarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -26,6 +28,14 @@ public class UsuarioService{
     public List<UsuarioResponseDTO> findAll(){
         return repository.findAll()
                 .stream()
+                .map(usuarioMapper::toUsuarioResponseDTO)
+                .toList();
+    }
+
+    public List<UsuarioResponseDTO> findAll(Pageable page){
+        Page<Usuario> usuarioPage = repository.findAll(page);
+        List<Usuario> usuarioList = usuarioPage.getContent();
+        return usuarioList.stream()
                 .map(usuarioMapper::toUsuarioResponseDTO)
                 .toList();
     }

@@ -7,6 +7,8 @@ import br.com.jfce.apibancotalentos.model.Perfil;
 import br.com.jfce.apibancotalentos.model.Usuario;
 import br.com.jfce.apibancotalentos.repository.PerfilRepository;
 import br.com.jfce.apibancotalentos.repository.UsuarioRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,6 +32,14 @@ public class PerfilService{
     public List<PerfilResponseDTO> findAll(){
         return perfilRepository.findAll()
                 .stream()
+                .map(perfilMapper::toPerfilResponseDTO)
+                .toList();
+    }
+
+    public List<PerfilResponseDTO> findAll(Pageable page){
+        Page<Perfil> perfilPage = perfilRepository.findAll(page);
+        List<Perfil> perfilList = perfilPage.getContent();
+        return perfilList.stream()
                 .map(perfilMapper::toPerfilResponseDTO)
                 .toList();
     }

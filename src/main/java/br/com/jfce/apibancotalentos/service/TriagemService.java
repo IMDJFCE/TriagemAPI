@@ -5,6 +5,8 @@ import br.com.jfce.apibancotalentos.dto.TriagemResponseDTO;
 import br.com.jfce.apibancotalentos.dto.mapper.TriagemMapper;
 import br.com.jfce.apibancotalentos.model.Triagem;
 import br.com.jfce.apibancotalentos.repository.TriagemRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -26,6 +28,14 @@ public class TriagemService {
     public List<TriagemResponseDTO> findAll(){
         return triagemRepository.findAll()
                 .stream()
+                .map(triagemMapper::toTriagemResponseDTO)
+                .toList();
+    }
+
+    public List<TriagemResponseDTO> findAll(Pageable page){
+        Page<Triagem> triagemPage = triagemRepository.findAll(page);
+        List<Triagem> triagemList = triagemPage.getContent();
+        return triagemList.stream()
                 .map(triagemMapper::toTriagemResponseDTO)
                 .toList();
     }
