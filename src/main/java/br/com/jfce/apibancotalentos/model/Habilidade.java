@@ -20,11 +20,11 @@ public class Habilidade extends AbstractEntity{
     @Column(name = "habilidade_id")
     private String id;
 
-    @NotBlank(message = "O campo habilidade não pode estar em branco.")
-    @Size(max = 50, message = "O campo habilidade deve ter no máximo 50 caracteres.")
+    @NotBlank
+    @Size(max = 50)
     private String habilidade;
 
     @NotBlank
-    @Size(max = 2, message = "O campo peso deve ter no máximo 2 caracteres.")
+    @Size(max = 2)
     private String peso;
 }

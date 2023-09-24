@@ -23,7 +23,7 @@ public class Convite extends AbstractEntity{
     private String id;
 
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "O campo status não pode ser nulo.")
+    @NotNull
     private Status status;
 
     private LocalDateTime dataEnvio;

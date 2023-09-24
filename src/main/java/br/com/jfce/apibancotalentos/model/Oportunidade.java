@@ -24,30 +24,30 @@ public class Oportunidade extends AbstractEntity{
     @Column(name = "oportunidade_id")
     private String id;
 
-    @NotBlank(message = "O campo título não pode estar em branco.")
-    @Size(max = 100, message = "O campo titulo deve ter no máximo 100 caracteres.")
+    @NotBlank
+    @Size(max = 100)
     private String titulo;
 
-    @NotNull(message = "O campo data inicial não pode ser nulo.")
+    @NotNull
     private LocalDate dataInicial;
 
-    @NotNull(message = "O campo data final não pode ser nulo.")
+    @NotNull
     private LocalDate dataFinal;
 
-    @NotBlank(message = "O campo descrição não pode estar em branco.")
+    @NotBlank
     private String descricao;
 
-    @NotBlank(message = "O campo triagem não pode estar em branco.")
+    @NotBlank
     private String triagem;
 
-    @NotBlank(message = "O campo habilidades não pode estar em branco.")
+    @NotBlank
     private String habilidades;
 
-    @Email(message = "Endereço de e-mail inválido.")
-    @NotBlank(message = "O campo e-mail não pode estar em branco.")
-    @Size(max = 70, message = "O campo e-mail deve ter no máximo 70 caracteres.")
+    @Email
+    @NotBlank
+    @Size(max = 70)
     private String email;
 
-    @NotBlank(message = "O campo informações não pode estar em branco.")
+    @NotBlank
     private String informacoes;
 }

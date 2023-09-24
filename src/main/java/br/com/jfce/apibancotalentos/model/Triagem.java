@@ -19,7 +19,7 @@ public class Triagem extends AbstractEntity{
     @Column(name = "triagem_id")
     private String id;
 
-    @NotBlank(message = "O campo tipo não pode estar em branco.")
-    @Size(max = 50, message = "O campo tipo deve ter no máximo 50 caracteres.")
+    @NotBlank
+    @Size(max = 50)
     private String tipo;
 }

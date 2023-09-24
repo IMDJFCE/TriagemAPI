@@ -24,28 +24,28 @@ public class Usuario extends AbstractEntity{
     @Column(name = "usuario_id")
     private String id;
 
-    @NotBlank(message = "O campo nome não pode estar em branco.")
-    @Size(max = 100, message = "O campo nome deve ter no máximo 100 caracteres.")
+    @NotBlank
+    @Size(max = 100)
     private String nome;
 
-    @NotBlank(message = "O campo email não pode estar em branco.")
-    @Email(message = "O e-mail deve ser um endereço de e-mail válido.")
-    @Size(max = 70, message = "O campo e-mail deve ter no máximo 70 caracteres.")
+    @NotBlank
+    @Email
+    @Size(max = 70)
     private String email;
 
-    @NotBlank(message = "O campo senha não pode estar em branco.")
-    @Size(min = 8, max = 50, message = "O campo senha deve ter no mínimo 8 caracteres e no máximo 50 caracteres.")
+    @NotBlank
+    @Size(min = 8, max = 50)
     private String senha;
 
-    @NotNull(message = "O campo data de nascimento não pode ser nulo.")
+    @NotNull
     private LocalDate dataNascimento;
 
-    @NotBlank(message = "O campo matrícula não pode estar em branco.")
-    @Size(max = 50, message = "O campo matrícula deve ter no máximo 50 caracteres.")
+    @NotBlank
+    @Size(max = 50)
     private String matricula;
 
-    @NotBlank(message = "O campo tipo não pode estar em branco.")
-    @Size(max = 15, message = "O campo tipo deve ter no máximo 15 caracteres.")
+    @NotBlank
+    @Size(max = 15)
     private String tipo;
 
     @OneToOne(cascade = CascadeType.PERSIST)

@@ -23,16 +23,16 @@ public class Perfil extends AbstractEntity{
     private String id;
 
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "O campo gênero não pode ser nulo.")
+    @NotNull
     private Genero genero;
 
-    @NotNull(message = "O campo deficiente não pode ser nulo.")
+    @NotNull
     private boolean isDeficiente;
 
     @Enumerated(EnumType.STRING)
-    @NotNull(message = "O campo raça não pode ser nulo.")
+    @NotNull
     private Raca raca;
 
-    @NotBlank(message = "O campo habilidades não pode estar em branco.")
+    @NotBlank
     private String habilidades;
 }
