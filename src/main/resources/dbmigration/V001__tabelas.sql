@@ -67,5 +67,6 @@ CREATE TABLE usuario (
     senha VARCHAR(50),
     tipo VARCHAR(15),
     perfil_id VARCHAR(255),
-    PRIMARY KEY (usuario_id)
+    PRIMARY KEY (usuario_id),
+    FOREIGN KEY (perfil_id) REFERENCES perfil(perfil_id)
 );
