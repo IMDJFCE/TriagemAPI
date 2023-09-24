@@ -77,7 +77,6 @@ public class PerfilService{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
-        perfil.get().setDeletedAt(LocalDateTime.now());
-        perfilRepository.save(perfil.get());
+        perfilRepository.delete(perfil.get());
     }
 }

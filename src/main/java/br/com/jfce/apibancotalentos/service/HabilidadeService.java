@@ -66,7 +66,6 @@ public class HabilidadeService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
-        habilidade.get().setDeletedAt(LocalDateTime.now());
-        habilidadeRepository.save(habilidade.get());
+        habilidadeRepository.delete(habilidade.get());
     }
 }

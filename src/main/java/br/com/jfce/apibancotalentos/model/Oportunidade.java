@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
 
@@ -17,6 +19,8 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE oportunidade SET deleted_at = CURRENT_TIMESTAMP WHERE oportunidade_id=?")
+@Where(clause = "deleted_at is null")
 public class Oportunidade extends AbstractEntity{
 
     @Id

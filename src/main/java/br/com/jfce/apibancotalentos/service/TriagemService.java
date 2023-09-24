@@ -66,7 +66,6 @@ public class TriagemService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
-        triagem.get().setDeletedAt(LocalDateTime.now());
-        triagemRepository.save(triagem.get());
+        triagemRepository.delete(triagem.get());
     }
 }

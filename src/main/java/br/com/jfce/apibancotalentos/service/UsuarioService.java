@@ -67,7 +67,6 @@ public class UsuarioService{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
-        usuario.get().setDeletedAt(LocalDateTime.now());
-        repository.save(usuario.get());
+        repository.delete(usuario.get());
     }
 }

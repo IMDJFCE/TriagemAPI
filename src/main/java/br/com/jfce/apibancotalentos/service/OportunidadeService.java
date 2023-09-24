@@ -65,7 +65,6 @@ public class OportunidadeService{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
-        oportunidade.get().setDeletedAt(LocalDateTime.now());
-        repository.save(oportunidade.get());
+        repository.delete(oportunidade.get());
     }
 }
