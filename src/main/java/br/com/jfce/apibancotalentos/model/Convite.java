@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
+@SQLDelete(sql = "UPDATE convite SET deleted_at = CURRENT_TIMESTAMP WHERE convite_id=?")
 @Where(clause = "deleted_at is null")
 public class Convite extends AbstractEntity{
 

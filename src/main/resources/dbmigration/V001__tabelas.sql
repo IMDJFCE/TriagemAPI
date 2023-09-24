@@ -1,72 +1,76 @@
 CREATE TABLE convite (
-    convite_id VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP(6),
-    deleted_at TIMESTAMP(6),
-    updated_at TIMESTAMP(6),
-    data_envio TIMESTAMP(6),
-    status VARCHAR(255) NOT NULL CHECK (status IN ('PENDENTE', 'ENVIADO')),
-    PRIMARY KEY (convite_id)
+    created_at timestamp(6),
+    data_envio timestamp(6),
+    deleted_at timestamp(6),
+    updated_at timestamp(6),
+    convite_id varchar(255) not null,
+    status varchar(255) not null check (status in ('PENDENTE','ENVIADO')),
+    primary key (convite_id)
 );
 
 CREATE TABLE habilidade (
-    habilidade_id VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP(6),
-    deleted_at TIMESTAMP(6),
-    updated_at TIMESTAMP(6),
-    habilidade VARCHAR(50),
-    peso VARCHAR(2),
-    PRIMARY KEY (habilidade_id)
+    peso varchar(2),
+    created_at timestamp(6),
+    deleted_at timestamp(6),
+    updated_at timestamp(6),
+    habilidade varchar(50),
+    habilidade_id varchar(255) not null,
+    primary key (habilidade_id)
 );
 
 CREATE TABLE oportunidade (
-    oportunidade_id VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP(6),
-    deleted_at TIMESTAMP(6),
-    updated_at TIMESTAMP(6),
-    data_final DATE NOT NULL,
-    data_inicial DATE NOT NULL,
-    descricao VARCHAR(255),
-    email VARCHAR(70),
-    habilidades VARCHAR(255),
-    informacoes VARCHAR(255),
-    titulo VARCHAR(100),
-    triagem VARCHAR(255),
-    PRIMARY KEY (oportunidade_id)
+    data_final date not null,
+    data_inicial date not null,
+    created_at timestamp(6),
+    deleted_at timestamp(6),
+    updated_at timestamp(6),
+    email varchar(70),
+    titulo varchar(100),
+    descricao varchar(255),
+    habilidades varchar(255),
+    informacoes varchar(255),
+    oportunidade_id varchar(255) not null,
+    triagem varchar(255),
+    primary key (oportunidade_id)
 );
 
 CREATE TABLE perfil (
-    perfil_id VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP(6),
-    deleted_at TIMESTAMP(6),
-    updated_at TIMESTAMP(6),
-    genero VARCHAR(255) NOT NULL CHECK (genero IN ('MASCULINO', 'FEMININO')),
-    habilidades VARCHAR(255),
-    is_deficiente BOOLEAN NOT NULL,
-    raca VARCHAR(255) NOT NULL CHECK (raca IN ('AMARELO', 'INDIGENA', 'BRANCO', 'PARDO', 'PRETO')),
-    PRIMARY KEY (perfil_id)
+    is_deficiente boolean not null,
+    created_at timestamp(6),
+    deleted_at timestamp(6),
+    updated_at timestamp(6),
+    genero varchar(255) not null check (genero in ('MASCULINO','FEMININO')),
+    habilidades varchar(255),
+    perfil_id varchar(255) not null,
+    raca varchar(255) not null check (raca in ('AMARELO','INDIGENA','BRANCO','PARDO','PRETO')),
+    primary key (perfil_id)
 );
 
 CREATE TABLE triagem (
-    triagem_id VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP(6),
-    deleted_at TIMESTAMP(6),
-    updated_at TIMESTAMP(6),
-    tipo VARCHAR(50),
-    PRIMARY KEY (triagem_id)
+    created_at timestamp(6),
+    deleted_at timestamp(6),
+    updated_at timestamp(6),
+    tipo varchar(50),
+    triagem_id varchar(255) not null,
+    primary key (triagem_id)
 );
 
 CREATE TABLE usuario (
-    usuario_id VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP(6),
-    deleted_at TIMESTAMP(6),
-    updated_at TIMESTAMP(6),
-    data_nascimento DATE NOT NULL,
-    email VARCHAR(70),
-    matricula VARCHAR(50),
-    nome VARCHAR(100),
-    senha VARCHAR(50),
-    tipo VARCHAR(15),
-    perfil_id VARCHAR(255),
-    PRIMARY KEY (usuario_id),
-    FOREIGN KEY (perfil_id) REFERENCES perfil(perfil_id)
+    data_nascimento date not null,
+    created_at timestamp(6),
+    deleted_at timestamp(6),
+    updated_at timestamp(6),
+    tipo varchar(15),
+    matricula varchar(50),
+    senha varchar(50),
+    email varchar(70),
+    nome varchar(100),
+    perfil_id varchar(255) unique,
+    usuario_id varchar(255) not null,
+    primary key (usuario_id)
 );
+
+ALTER TABLE usuario
+ADD CONSTRAINT FK9po12ytp6krwvwht1kmd0qgxf
+FOREIGN KEY (perfil_id)
+REFERENCES perfil(perfil_id);
