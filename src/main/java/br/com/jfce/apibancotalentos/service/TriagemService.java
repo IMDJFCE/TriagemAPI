@@ -5,8 +5,9 @@ import br.com.jfce.apibancotalentos.dto.TriagemResponseDTO;
 import br.com.jfce.apibancotalentos.dto.mapper.TriagemMapper;
 import br.com.jfce.apibancotalentos.model.Triagem;
 import br.com.jfce.apibancotalentos.repository.TriagemRepository;
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,7 +33,7 @@ public class TriagemService {
     public TriagemResponseDTO getById(String id){
         Optional<Triagem> triagem = triagemRepository.findById(id);
         if(triagem.isEmpty()){
-            throw new EntityNotFoundException("Triagem Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         return triagemMapper.toTriagemResponseDTO(triagem.get());
@@ -46,7 +47,7 @@ public class TriagemService {
     public TriagemResponseDTO update(String id, TriagemRequestDTO triagemRequest){
         Optional<Triagem> triagemOptional = triagemRepository.findById(id);
         if(triagemOptional.isEmpty()) {
-            throw new EntityNotFoundException("Triagem Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         Triagem triagem = triagemMapper.toTriagem(triagemRequest);
@@ -62,7 +63,7 @@ public class TriagemService {
         Optional<Triagem> triagem = triagemRepository.findById(id);
 
         if(triagem.isEmpty()){
-            throw new EntityNotFoundException("Triagem Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         triagem.get().setDeletedAt(LocalDateTime.now());

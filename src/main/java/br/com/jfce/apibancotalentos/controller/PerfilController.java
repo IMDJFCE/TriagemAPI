@@ -6,6 +6,7 @@ import br.com.jfce.apibancotalentos.service.PerfilService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class PerfilController {
             summary = "Listar Todos os Perfis",
             description = "Este endpoint retorna uma lista de todos os perfis disponíveis"
     )
+    @ResponseStatus(HttpStatus.OK)
     public List<PerfilResponseDTO> listAll(){
         return service.findAll();
     }
@@ -34,6 +36,7 @@ public class PerfilController {
             summary = "Obter um Perfil por ID",
             description = "Este endpoint retorna um perfil específico com base no ID fornecido."
     )
+    @ResponseStatus(HttpStatus.OK)
     public PerfilResponseDTO getById(@PathVariable String id){
         return service.getById(id);
     }
@@ -43,6 +46,7 @@ public class PerfilController {
             summary = "Criar um Novo Perfil",
             description = "Este endpoint permite criar um novo perfil."
     )
+    @ResponseStatus(HttpStatus.CREATED)
     public PerfilResponseDTO create(@PathVariable String usuarioId, @RequestBody PerfilRequestDTO perfil){
         return service.create(usuarioId, perfil);
     }
@@ -52,6 +56,7 @@ public class PerfilController {
             summary = "Atualizar um Perfil Existente",
             description = "Este endpoint permite atualizar os dados de um perfil existente."
     )
+    @ResponseStatus(HttpStatus.OK)
     public PerfilResponseDTO update(@PathVariable String perfilId, @RequestBody PerfilRequestDTO perfil){
         return service.update(perfilId, perfil);
     }
@@ -61,6 +66,7 @@ public class PerfilController {
             summary = "Excluir um Perfil",
             description = "Este endpoint permite excluir um perfil com base no ID fornecido."
     )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String perfilId){
         service.delete(perfilId);
     }

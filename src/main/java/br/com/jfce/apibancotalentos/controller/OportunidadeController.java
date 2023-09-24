@@ -2,11 +2,11 @@ package br.com.jfce.apibancotalentos.controller;
 
 import br.com.jfce.apibancotalentos.dto.OportunidadeRequestDTO;
 import br.com.jfce.apibancotalentos.dto.OportunidadeResponseDTO;
-import br.com.jfce.apibancotalentos.model.Oportunidade;
 import br.com.jfce.apibancotalentos.service.OportunidadeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +26,7 @@ public class OportunidadeController {
             summary = "Listar Todas as Oportunidades",
             description = "Este endpoint retorna uma lista de todas as oportunidades disponíveis."
     )
+    @ResponseStatus(HttpStatus.OK)
     public List<OportunidadeResponseDTO> listAll(){
         return service.findAll();
     }
@@ -35,6 +36,7 @@ public class OportunidadeController {
             summary = "Obter uma Oportunidade por ID",
             description = "Este endpoint retorna uma oportunidade específica com base no ID fornecido."
     )
+    @ResponseStatus(HttpStatus.OK)
     public OportunidadeResponseDTO getById(@PathVariable String id){
         return service.getById(id);
     }
@@ -44,6 +46,7 @@ public class OportunidadeController {
             summary = "Criar uma Nova Oportunidade",
             description = "Este endpoint permite criar uma nova oportunidade."
     )
+    @ResponseStatus(HttpStatus.CREATED)
     public OportunidadeResponseDTO create(@RequestBody OportunidadeRequestDTO oportunidade){
         return service.create(oportunidade);
     }
@@ -53,6 +56,7 @@ public class OportunidadeController {
             summary = "Atualizar uma Oportunidade Existente",
             description = "Este endpoint permite atualizar os dados de uma oportunidade existente."
     )
+    @ResponseStatus(HttpStatus.OK)
     public OportunidadeResponseDTO update(@PathVariable String id, @RequestBody OportunidadeRequestDTO oportunidade){
         return service.update(id, oportunidade);
     }
@@ -62,6 +66,7 @@ public class OportunidadeController {
             summary = "Excluir uma Oportunidade",
             description = "Este endpoint permite excluir uma oportunidade com base no ID fornecido."
     )
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String id){
         service.delete(id);
     }

@@ -5,8 +5,9 @@ import br.com.jfce.apibancotalentos.dto.HabilidadeResponseDTO;
 import br.com.jfce.apibancotalentos.dto.mapper.HabilidadeMapper;
 import br.com.jfce.apibancotalentos.model.Habilidade;
 import br.com.jfce.apibancotalentos.repository.HabilidadeRepository;
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,7 +33,7 @@ public class HabilidadeService {
     public HabilidadeResponseDTO getById(String id){
         Optional<Habilidade> habilidade = habilidadeRepository.findById(id);
         if(habilidade.isEmpty()){
-            throw new EntityNotFoundException("Habilidade Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         return habilidadeMapper.toHabilidadeResponseDTO(habilidade.get());
@@ -46,7 +47,7 @@ public class HabilidadeService {
     public HabilidadeResponseDTO update(String id, HabilidadeRequestDTO habilidadeRequest){
         Optional<Habilidade> habilidadeOptional = habilidadeRepository.findById(id);
         if(habilidadeOptional.isEmpty()) {
-            throw new EntityNotFoundException("Habilidade Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         Habilidade habilidade = habilidadeMapper.toHabilidade(habilidadeRequest);
@@ -62,7 +63,7 @@ public class HabilidadeService {
         Optional<Habilidade> habilidade = habilidadeRepository.findById(id);
 
         if(habilidade.isEmpty()){
-            throw new EntityNotFoundException("Habilidade Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         habilidade.get().setDeletedAt(LocalDateTime.now());

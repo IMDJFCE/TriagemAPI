@@ -7,8 +7,9 @@ import br.com.jfce.apibancotalentos.model.Perfil;
 import br.com.jfce.apibancotalentos.model.Usuario;
 import br.com.jfce.apibancotalentos.repository.PerfilRepository;
 import br.com.jfce.apibancotalentos.repository.UsuarioRepository;
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,7 +37,7 @@ public class PerfilService{
     public PerfilResponseDTO getById(String id){
         Optional<Perfil> perfil = perfilRepository.findById(id);
         if(perfil.isEmpty()){
-            throw new EntityNotFoundException("Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         return perfilMapper.toPerfilResponseDTO(perfil.get());
@@ -45,7 +46,7 @@ public class PerfilService{
     public PerfilResponseDTO create(String usuarioId, PerfilRequestDTO perfil){
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(usuarioId);
         if(usuarioOptional.isEmpty()){
-            throw new EntityNotFoundException("Usuario Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         Perfil created = perfilRepository.save(perfilMapper.toPerfil(perfil));
@@ -56,12 +57,12 @@ public class PerfilService{
     }
 
     public PerfilResponseDTO update(String perfilId, PerfilRequestDTO perfilRequest){
-        Perfil perfil = perfilMapper.toPerfil(perfilRequest);
         Optional<Perfil> perfilOptional = perfilRepository.findById(perfilId);
         if(perfilOptional.isEmpty()){
-            throw new EntityNotFoundException("Perfil Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
+        Perfil perfil = perfilMapper.toPerfil(perfilRequest);
         perfil.setId(perfilId);
         perfil.setCreatedAt(perfilOptional.get().getCreatedAt());
         perfil.setDeletedAt(perfilOptional.get().getDeletedAt());
@@ -73,7 +74,7 @@ public class PerfilService{
     public void delete(String perfilId){
         Optional<Perfil> perfil = perfilRepository.findById(perfilId);
         if(perfil.isEmpty()){
-            throw new EntityNotFoundException("Perfil Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         perfil.get().setDeletedAt(LocalDateTime.now());

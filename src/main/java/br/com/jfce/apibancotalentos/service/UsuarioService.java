@@ -5,8 +5,9 @@ import br.com.jfce.apibancotalentos.dto.UsuarioResponseDTO;
 import br.com.jfce.apibancotalentos.dto.mapper.UsuarioMapper;
 import br.com.jfce.apibancotalentos.model.Usuario;
 import br.com.jfce.apibancotalentos.repository.UsuarioRepository;
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,7 +33,7 @@ public class UsuarioService{
     public UsuarioResponseDTO getById(String id){
         Optional<Usuario> usuario = repository.findById(id);
         if(usuario.isEmpty()){
-            throw new EntityNotFoundException("Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         return usuarioMapper.toUsuarioResponseDTO(usuario.get());
@@ -46,7 +47,7 @@ public class UsuarioService{
     public UsuarioResponseDTO update(String id, UsuarioRequestDTO usuarioRequest){
         Optional<Usuario> usuarioOptional = repository.findById(id);
         if(usuarioOptional.isEmpty()) {
-            throw new EntityNotFoundException("Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         Usuario usuario = usuarioMapper.toUsuario(usuarioRequest);
@@ -63,7 +64,7 @@ public class UsuarioService{
         Optional<Usuario> usuario = repository.findById(id);
 
         if(usuario.isEmpty()){
-            throw new EntityNotFoundException("Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         usuario.get().setDeletedAt(LocalDateTime.now());

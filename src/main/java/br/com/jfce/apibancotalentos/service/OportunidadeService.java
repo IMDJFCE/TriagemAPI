@@ -5,8 +5,9 @@ import br.com.jfce.apibancotalentos.dto.OportunidadeResponseDTO;
 import br.com.jfce.apibancotalentos.dto.mapper.OportunidadeMapper;
 import br.com.jfce.apibancotalentos.model.Oportunidade;
 import br.com.jfce.apibancotalentos.repository.OportunidadeRepository;
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,7 +33,7 @@ public class OportunidadeService{
     public OportunidadeResponseDTO getById(String id){
         Optional<Oportunidade> oportunidade = repository.findById(id);
         if(oportunidade.isEmpty()){
-            throw new EntityNotFoundException("Oportunidade Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         return oportunidadeMapper.toOportunidadeResponseDTO(oportunidade.get());
@@ -46,7 +47,7 @@ public class OportunidadeService{
     public OportunidadeResponseDTO update(String id, OportunidadeRequestDTO oportunidadeRequest){
         Optional<Oportunidade> oportunidadeOptional = repository.findById(id);
         if(oportunidadeOptional.isEmpty()){
-            throw new EntityNotFoundException("Oportunidade Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         Oportunidade oportunidade = oportunidadeMapper.toOportunidade(oportunidadeRequest);
@@ -61,7 +62,7 @@ public class OportunidadeService{
     public void delete(String id){
         Optional<Oportunidade> oportunidade = repository.findById(id);
         if(oportunidade.isEmpty()){
-            throw new EntityNotFoundException("Oportunidade Not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
         oportunidade.get().setDeletedAt(LocalDateTime.now());
