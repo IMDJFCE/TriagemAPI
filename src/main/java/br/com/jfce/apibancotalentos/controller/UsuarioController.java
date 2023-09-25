@@ -5,6 +5,7 @@ import br.com.jfce.apibancotalentos.dto.UsuarioResponseDTO;
 import br.com.jfce.apibancotalentos.service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -60,7 +61,7 @@ public class UsuarioController {
             description = "Este endpoint permite criar um novo usuário."
     )
     @ResponseStatus(HttpStatus.CREATED)
-    public UsuarioResponseDTO create(@RequestBody UsuarioRequestDTO usuario){
+    public UsuarioResponseDTO create(@Valid @RequestBody UsuarioRequestDTO usuario){
         return service.create(usuario);
     }
 
@@ -70,7 +71,7 @@ public class UsuarioController {
             description = "Este endpoint permite atualizar os dados de um usuário existente."
     )
     @ResponseStatus(HttpStatus.OK)
-    public UsuarioResponseDTO update(@PathVariable String id, @RequestBody UsuarioRequestDTO usuarioRequest){
+    public UsuarioResponseDTO update(@PathVariable String id, @Valid @RequestBody UsuarioRequestDTO usuarioRequest){
         return service.update(id, usuarioRequest);
     }
 

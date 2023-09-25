@@ -5,6 +5,7 @@ import br.com.jfce.apibancotalentos.dto.TriagemResponseDTO;
 import br.com.jfce.apibancotalentos.service.TriagemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -60,7 +61,7 @@ public class TriagemController {
             description = "Este endpoint permite criar uma nova triagem."
     )
     @ResponseStatus(HttpStatus.CREATED)
-    public TriagemResponseDTO create(@RequestBody TriagemRequestDTO triagem){
+    public TriagemResponseDTO create(@Valid @RequestBody TriagemRequestDTO triagem){
         return service.create(triagem);
     }
 
@@ -70,7 +71,7 @@ public class TriagemController {
             description = "Este endpoint permite atualizar os dados de uma triagem existente."
     )
     @ResponseStatus(HttpStatus.OK)
-    public TriagemResponseDTO update(@PathVariable String id, @RequestBody TriagemRequestDTO triagemRequest){
+    public TriagemResponseDTO update(@PathVariable String id, @Valid @RequestBody TriagemRequestDTO triagemRequest){
         return service.update(id, triagemRequest);
     }
 

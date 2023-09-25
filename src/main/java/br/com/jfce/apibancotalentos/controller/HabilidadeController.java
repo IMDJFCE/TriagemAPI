@@ -5,6 +5,7 @@ import br.com.jfce.apibancotalentos.dto.HabilidadeResponseDTO;
 import br.com.jfce.apibancotalentos.service.HabilidadeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -60,7 +61,7 @@ public class HabilidadeController {
             description = "Este endpoint permite criar uma nova habilidade."
     )
     @ResponseStatus(HttpStatus.CREATED)
-    public HabilidadeResponseDTO create(@RequestBody HabilidadeRequestDTO habilidade){
+    public HabilidadeResponseDTO create(@Valid @RequestBody HabilidadeRequestDTO habilidade){
         return service.create(habilidade);
     }
 
@@ -70,7 +71,7 @@ public class HabilidadeController {
             description = "Este endpoint permite atualizar os dados de uma habilidade existente."
     )
     @ResponseStatus(HttpStatus.OK)
-    public HabilidadeResponseDTO update(@PathVariable String id, @RequestBody HabilidadeRequestDTO habilidadeRequest){
+    public HabilidadeResponseDTO update(@PathVariable String id, @Valid @RequestBody HabilidadeRequestDTO habilidadeRequest){
         return service.update(id, habilidadeRequest);
     }
 

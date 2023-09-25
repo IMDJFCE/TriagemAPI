@@ -5,6 +5,7 @@ import br.com.jfce.apibancotalentos.dto.PerfilResponseDTO;
 import br.com.jfce.apibancotalentos.service.PerfilService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -60,7 +61,7 @@ public class PerfilController {
             description = "Este endpoint permite criar um novo perfil."
     )
     @ResponseStatus(HttpStatus.CREATED)
-    public PerfilResponseDTO create(@PathVariable String usuarioId, @RequestBody PerfilRequestDTO perfil){
+    public PerfilResponseDTO create(@PathVariable String usuarioId, @Valid @RequestBody PerfilRequestDTO perfil){
         return service.create(usuarioId, perfil);
     }
 
@@ -70,7 +71,7 @@ public class PerfilController {
             description = "Este endpoint permite atualizar os dados de um perfil existente."
     )
     @ResponseStatus(HttpStatus.OK)
-    public PerfilResponseDTO update(@PathVariable String perfilId, @RequestBody PerfilRequestDTO perfil){
+    public PerfilResponseDTO update(@PathVariable String perfilId, @Valid @RequestBody PerfilRequestDTO perfil){
         return service.update(perfilId, perfil);
     }
 

@@ -5,6 +5,7 @@ import br.com.jfce.apibancotalentos.dto.OportunidadeResponseDTO;
 import br.com.jfce.apibancotalentos.service.OportunidadeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -60,7 +61,7 @@ public class OportunidadeController {
             description = "Este endpoint permite criar uma nova oportunidade."
     )
     @ResponseStatus(HttpStatus.CREATED)
-    public OportunidadeResponseDTO create(@RequestBody OportunidadeRequestDTO oportunidade){
+    public OportunidadeResponseDTO create(@Valid @RequestBody OportunidadeRequestDTO oportunidade){
         return service.create(oportunidade);
     }
 
@@ -70,7 +71,7 @@ public class OportunidadeController {
             description = "Este endpoint permite atualizar os dados de uma oportunidade existente."
     )
     @ResponseStatus(HttpStatus.OK)
-    public OportunidadeResponseDTO update(@PathVariable String id, @RequestBody OportunidadeRequestDTO oportunidade){
+    public OportunidadeResponseDTO update(@PathVariable String id, @Valid @RequestBody OportunidadeRequestDTO oportunidade){
         return service.update(id, oportunidade);
     }
 
