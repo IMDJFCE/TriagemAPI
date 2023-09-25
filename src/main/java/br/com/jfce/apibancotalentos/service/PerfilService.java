@@ -13,7 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
@@ -61,7 +60,6 @@ public class PerfilService{
         return perfilMapper.toPerfilResponseDTO(perfil.get());
     }
 
-    @Transactional
     public PerfilResponseDTO create(String usuarioId, PerfilRequestDTO perfil){
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(usuarioId);
         if(usuarioOptional.isEmpty()){
@@ -89,6 +87,13 @@ public class PerfilService{
         }
 
         Perfil perfil = perfilMapper.toPerfil(perfilRequest);
+        Set<Habilidade> habilidades = new HashSet<>();
+        for(Habilidade habilidade : perfil.getHabilidades()){
+            habilidade = habilidadeRepository.save(habilidade);
+            habilidades.add(habilidade);
+        }
+
+        perfil.setHabilidades(habilidades);
         perfil.setId(perfilId);
         perfil.setCreatedAt(perfilOptional.get().getCreatedAt());
         perfil.setDeletedAt(perfilOptional.get().getDeletedAt());
