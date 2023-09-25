@@ -13,6 +13,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -44,8 +45,12 @@ public class Oportunidade extends AbstractEntity{
     @NotBlank
     private String triagem;
 
-    @NotBlank
-    private String habilidades;
+    @ManyToMany
+    @JoinTable(
+            name = "oportunidade_habilidade",
+            joinColumns = {@JoinColumn(name = "id_oportunidade", referencedColumnName = "oportunidade_id")},
+            inverseJoinColumns = {@JoinColumn(name = "id_habilidade", referencedColumnName = "habilidade_id")})
+    private Set<Habilidade> habilidades;
 
     @Email
     @NotBlank
