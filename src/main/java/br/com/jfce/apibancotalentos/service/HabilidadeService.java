@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,9 +61,6 @@ public class HabilidadeService {
 
         Habilidade habilidade = habilidadeMapper.toHabilidade(habilidadeRequest);
         habilidade.setId(id);
-        habilidade.setCreatedAt(habilidadeOptional.get().getCreatedAt());
-        habilidade.setDeletedAt(habilidadeOptional.get().getDeletedAt());
-        habilidade.setUpdatedAt(LocalDateTime.now());
         habilidade = habilidadeRepository.save(habilidade);
         return habilidadeMapper.toHabilidadeResponseDTO(habilidade);
     }

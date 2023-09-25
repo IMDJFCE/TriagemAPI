@@ -10,9 +10,6 @@ CREATE TABLE convite (
 
 CREATE TABLE habilidade (
     peso varchar(2),
-    created_at timestamp(6),
-    deleted_at timestamp(6),
-    updated_at timestamp(6),
     habilidade varchar(50),
     habilidade_id varchar(255) not null,
     primary key (habilidade_id)
