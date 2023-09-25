@@ -2,9 +2,11 @@ package br.com.jfce.apibancotalentos.dto;
 
 import br.com.jfce.apibancotalentos.model.Enums.Genero;
 import br.com.jfce.apibancotalentos.model.Enums.Raca;
-import jakarta.validation.constraints.NotBlank;
+import br.com.jfce.apibancotalentos.model.Habilidade;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+
+import java.util.Set;
 
 @Data
 public class PerfilRequestDTO {
@@ -17,6 +19,5 @@ public class PerfilRequestDTO {
     @NotNull
     private Raca raca;
 
-    @NotBlank
-    private String habilidades;
+    private Set<Habilidade> habilidades;
 }

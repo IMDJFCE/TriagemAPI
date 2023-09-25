@@ -3,7 +3,6 @@ package br.com.jfce.apibancotalentos.model;
 import br.com.jfce.apibancotalentos.model.Enums.Genero;
 import br.com.jfce.apibancotalentos.model.Enums.Raca;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
+
+import java.util.Set;
 
 @Entity
 @Getter
@@ -37,6 +38,10 @@ public class Perfil extends AbstractEntity{
     @NotNull
     private Raca raca;
 
-    @NotBlank
-    private String habilidades;
+    @ManyToMany
+    @JoinTable(
+            name = "perfil_habilidade",
+            joinColumns = {@JoinColumn(name = "id_perfil", referencedColumnName = "perfil_id")},
+            inverseJoinColumns = {@JoinColumn(name = "id_habilidade", referencedColumnName = "habilidade_id")})
+    private Set<Habilidade> habilidades;
 }
