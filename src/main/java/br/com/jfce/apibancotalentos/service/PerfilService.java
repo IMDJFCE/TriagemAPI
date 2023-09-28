@@ -3,7 +3,6 @@ package br.com.jfce.apibancotalentos.service;
 import br.com.jfce.apibancotalentos.dto.PerfilRequestDTO;
 import br.com.jfce.apibancotalentos.dto.PerfilResponseDTO;
 import br.com.jfce.apibancotalentos.dto.mapper.PerfilMapper;
-import br.com.jfce.apibancotalentos.model.Habilidade;
 import br.com.jfce.apibancotalentos.model.Perfil;
 import br.com.jfce.apibancotalentos.model.Usuario;
 import br.com.jfce.apibancotalentos.repository.HabilidadeRepository;
@@ -16,10 +15,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class PerfilService{
@@ -67,12 +64,6 @@ public class PerfilService{
         }
 
         Perfil created = perfilMapper.toPerfil(perfil);
-        Set<Habilidade> habilidades = new HashSet<>();
-        for(Habilidade habilidade : created.getHabilidades()){
-            habilidade = habilidadeRepository.save(habilidade);
-            habilidades.add(habilidade);
-        }
-        created.setHabilidades(habilidades);
         created = perfilRepository.save(created);
         Usuario existingUsuario = usuarioOptional.get();
         existingUsuario.setPerfil(created);
@@ -87,13 +78,6 @@ public class PerfilService{
         }
 
         Perfil perfil = perfilMapper.toPerfil(perfilRequest);
-        Set<Habilidade> habilidades = new HashSet<>();
-        for(Habilidade habilidade : perfil.getHabilidades()){
-            habilidade = habilidadeRepository.save(habilidade);
-            habilidades.add(habilidade);
-        }
-
-        perfil.setHabilidades(habilidades);
         perfil.setId(perfilId);
         perfil.setCreatedAt(perfilOptional.get().getCreatedAt());
         perfil.setDeletedAt(perfilOptional.get().getDeletedAt());

@@ -38,10 +38,11 @@ public class Perfil extends AbstractEntity{
     @NotNull
     private Raca raca;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "perfil_habilidade",
             joinColumns = {@JoinColumn(name = "id_perfil", referencedColumnName = "perfil_id")},
-            inverseJoinColumns = {@JoinColumn(name = "id_habilidade", referencedColumnName = "habilidade_id")})
+            inverseJoinColumns = {@JoinColumn(name = "id_habilidade", referencedColumnName = "habilidade_id")}
+    )
     private Set<Habilidade> habilidades;
 }
