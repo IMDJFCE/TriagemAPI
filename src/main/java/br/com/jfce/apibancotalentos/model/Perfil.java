@@ -11,6 +11,7 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -45,4 +46,12 @@ public class Perfil extends AbstractEntity{
             inverseJoinColumns = {@JoinColumn(name = "id_habilidade", referencedColumnName = "habilidade_id")}
     )
     private Set<Habilidade> habilidades;
+
+    public void update(Perfil perfil){
+        this.setGenero(perfil.getGenero());
+        this.setDeficiente(perfil.isDeficiente());
+        this.setRaca(perfil.getRaca());
+        this.setHabilidades(perfil.getHabilidades());
+        this.setUpdatedAt(LocalDateTime.now());
+    }
 }

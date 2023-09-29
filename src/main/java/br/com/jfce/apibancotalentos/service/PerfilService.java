@@ -5,7 +5,6 @@ import br.com.jfce.apibancotalentos.dto.PerfilResponseDTO;
 import br.com.jfce.apibancotalentos.dto.mapper.PerfilMapper;
 import br.com.jfce.apibancotalentos.model.Perfil;
 import br.com.jfce.apibancotalentos.model.Usuario;
-import br.com.jfce.apibancotalentos.repository.HabilidadeRepository;
 import br.com.jfce.apibancotalentos.repository.PerfilRepository;
 import br.com.jfce.apibancotalentos.repository.UsuarioRepository;
 import org.springframework.data.domain.Page;
@@ -14,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,13 +21,11 @@ public class PerfilService{
     private final PerfilRepository perfilRepository;
     private final UsuarioRepository usuarioRepository;
 
-    private final HabilidadeRepository habilidadeRepository;
     private final PerfilMapper perfilMapper;
 
-    public PerfilService(PerfilRepository perfilRepository, UsuarioRepository usuarioRepository, HabilidadeRepository habilidadeRepository, PerfilMapper perfilMapper) {
+    public PerfilService(PerfilRepository perfilRepository, UsuarioRepository usuarioRepository, PerfilMapper perfilMapper) {
         this.perfilRepository = perfilRepository;
         this.usuarioRepository = usuarioRepository;
-        this.habilidadeRepository = habilidadeRepository;
         this.perfilMapper = perfilMapper;
     }
 
@@ -77,13 +73,10 @@ public class PerfilService{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
-        Perfil perfil = perfilMapper.toPerfil(perfilRequest);
-        perfil.setId(perfilId);
-        perfil.setCreatedAt(perfilOptional.get().getCreatedAt());
-        perfil.setDeletedAt(perfilOptional.get().getDeletedAt());
-        perfil.setUpdatedAt(LocalDateTime.now());
-        perfil = perfilRepository.save(perfil);
-        return perfilMapper.toPerfilResponseDTO(perfil);
+        Perfil existingPerfil = perfilOptional.get();
+        existingPerfil.update(perfilMapper.toPerfil(perfilRequest));
+        existingPerfil = perfilRepository.save(existingPerfil);
+        return perfilMapper.toPerfilResponseDTO(existingPerfil);
     }
 
     public void delete(String perfilId){
