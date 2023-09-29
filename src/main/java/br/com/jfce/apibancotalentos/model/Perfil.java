@@ -11,7 +11,6 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
@@ -52,6 +51,5 @@ public class Perfil extends AbstractEntity{
         this.setDeficiente(perfil.isDeficiente());
         this.setRaca(perfil.getRaca());
         this.setHabilidades(perfil.getHabilidades());
-        this.setUpdatedAt(LocalDateTime.now());
     }
 }
