@@ -45,7 +45,7 @@ public class Oportunidade extends AbstractEntity{
     @NotBlank
     private String triagem;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "oportunidade_habilidade",
             joinColumns = {@JoinColumn(name = "id_oportunidade", referencedColumnName = "oportunidade_id")},

@@ -34,4 +34,8 @@ public class Habilidade{
     @ManyToMany(mappedBy = "habilidades")
     @JsonIgnore
     private Set<Perfil> perfis;
+
+    @ManyToMany(mappedBy = "habilidades")
+    @JsonIgnore
+    private Set<Oportunidade> oportunidades;
 }

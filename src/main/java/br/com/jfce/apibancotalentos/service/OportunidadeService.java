@@ -3,7 +3,6 @@ package br.com.jfce.apibancotalentos.service;
 import br.com.jfce.apibancotalentos.dto.OportunidadeRequestDTO;
 import br.com.jfce.apibancotalentos.dto.OportunidadeResponseDTO;
 import br.com.jfce.apibancotalentos.dto.mapper.OportunidadeMapper;
-import br.com.jfce.apibancotalentos.model.Habilidade;
 import br.com.jfce.apibancotalentos.model.Oportunidade;
 import br.com.jfce.apibancotalentos.repository.HabilidadeRepository;
 import br.com.jfce.apibancotalentos.repository.OportunidadeRepository;
@@ -14,10 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class OportunidadeService{
@@ -57,12 +54,6 @@ public class OportunidadeService{
 
     public OportunidadeResponseDTO create(OportunidadeRequestDTO oportunidade){
         Oportunidade created = oportunidadeMapper.toOportunidade(oportunidade);
-        Set<Habilidade> habilidades = new HashSet<>();
-        for(Habilidade habilidade : created.getHabilidades()){
-            habilidade = habilidadeRepository.save(habilidade);
-            habilidades.add(habilidade);
-        }
-        created.setHabilidades(habilidades);
         created = oportunidadeRepository.save(created);
         return oportunidadeMapper.toOportunidadeResponseDTO(created);
     }
@@ -74,13 +65,6 @@ public class OportunidadeService{
         }
 
         Oportunidade oportunidade = oportunidadeMapper.toOportunidade(oportunidadeRequest);
-        Set<Habilidade> habilidades = new HashSet<>();
-        for(Habilidade habilidade : oportunidade.getHabilidades()){
-            habilidade = habilidadeRepository.save(habilidade);
-            habilidades.add(habilidade);
-        }
-
-        oportunidade.setHabilidades(habilidades);
         oportunidade.setId(id);
         oportunidade.setCreatedAt(oportunidadeOptional.get().getCreatedAt());
         oportunidade.setDeletedAt(oportunidadeOptional.get().getDeletedAt());
