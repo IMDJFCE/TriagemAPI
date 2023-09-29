@@ -59,4 +59,15 @@ public class Oportunidade extends AbstractEntity{
 
     @NotBlank
     private String informacoes;
+
+    public void update(Oportunidade oportunidade){
+        this.setTitulo(oportunidade.getTitulo());
+        this.setDataInicial(oportunidade.getDataInicial());
+        this.setDataFinal(oportunidade.getDataFinal());
+        this.setDescricao(oportunidade.getDescricao());
+        this.setTriagem(oportunidade.getTriagem());
+        this.setHabilidades(oportunidade.getHabilidades());
+        this.setEmail(oportunidade.getEmail());
+        this.setInformacoes(oportunidade.getInformacoes());
+    }
 }

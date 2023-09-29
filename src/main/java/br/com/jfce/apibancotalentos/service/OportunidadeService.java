@@ -4,7 +4,6 @@ import br.com.jfce.apibancotalentos.dto.OportunidadeRequestDTO;
 import br.com.jfce.apibancotalentos.dto.OportunidadeResponseDTO;
 import br.com.jfce.apibancotalentos.dto.mapper.OportunidadeMapper;
 import br.com.jfce.apibancotalentos.model.Oportunidade;
-import br.com.jfce.apibancotalentos.repository.HabilidadeRepository;
 import br.com.jfce.apibancotalentos.repository.OportunidadeRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,19 +11,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class OportunidadeService{
     private final OportunidadeRepository oportunidadeRepository;
-    private final HabilidadeRepository habilidadeRepository;
     private final OportunidadeMapper oportunidadeMapper;
 
-    public OportunidadeService(OportunidadeRepository oportunidadeRepository, HabilidadeRepository habilidadeRepository, OportunidadeMapper oportunidadeMapper) {
+    public OportunidadeService(OportunidadeRepository oportunidadeRepository, OportunidadeMapper oportunidadeMapper) {
         this.oportunidadeRepository = oportunidadeRepository;
-        this.habilidadeRepository = habilidadeRepository;
         this.oportunidadeMapper = oportunidadeMapper;
     }
 
@@ -64,11 +60,8 @@ public class OportunidadeService{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
-        Oportunidade oportunidade = oportunidadeMapper.toOportunidade(oportunidadeRequest);
-        oportunidade.setId(id);
-        oportunidade.setCreatedAt(oportunidadeOptional.get().getCreatedAt());
-        oportunidade.setDeletedAt(oportunidadeOptional.get().getDeletedAt());
-        oportunidade.setUpdatedAt(LocalDateTime.now());
+        Oportunidade oportunidade = oportunidadeOptional.get();
+        oportunidade.update(oportunidadeMapper.toOportunidade(oportunidadeRequest));
         oportunidade = oportunidadeRepository.save(oportunidade);
         return oportunidadeMapper.toOportunidadeResponseDTO(oportunidade);
     }
