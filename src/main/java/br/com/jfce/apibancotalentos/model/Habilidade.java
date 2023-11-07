@@ -36,6 +36,10 @@ public class Habilidade{
     @JsonIgnore
     private Set<Oportunidade> oportunidades;
 
+    @ManyToMany(mappedBy = "habilidades")
+    @JsonIgnore
+    private Set<Usuario> usuarios;
+
     public enum Tipo {
         TECNICA("T"),
         COMPORTAMENTAL("C");

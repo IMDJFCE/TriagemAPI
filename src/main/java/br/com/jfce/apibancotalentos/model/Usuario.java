@@ -13,6 +13,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -46,4 +47,12 @@ public class Usuario extends AbstractEntity{
     @NotBlank
     @Size(max = 15)
     private String tipo;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "usuario_habilidade",
+            joinColumns = {@JoinColumn(name = "id_usuario", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "id_habilidade", referencedColumnName = "habilidade_id")}
+    )
+    private Set<Habilidade> habilidades;
 }
