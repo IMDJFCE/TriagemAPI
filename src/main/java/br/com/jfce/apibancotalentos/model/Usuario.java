@@ -51,8 +51,4 @@ public class Usuario extends AbstractEntity{
     @NotBlank
     @Size(max = 15)
     private String tipo;
-
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "perfil_id")
-    private Perfil perfil;
 }
