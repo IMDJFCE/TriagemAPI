@@ -3,6 +3,7 @@ package br.com.jfce.apibancotalentos.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,15 +28,22 @@ public class Habilidade{
     @Size(max = 50)
     private String habilidade;
 
-    @NotBlank
-    @Size(max = 2)
-    private String peso;
-
-    @ManyToMany(mappedBy = "habilidades")
-    @JsonIgnore
-    private Set<Perfil> perfis;
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private Tipo tipo;
 
     @ManyToMany(mappedBy = "habilidades")
     @JsonIgnore
     private Set<Oportunidade> oportunidades;
+
+    public enum Tipo {
+        TECNICA("T"),
+        COMPORTAMENTAL("C");
+
+        private final String tipo;
+
+        Tipo(String tipo) {
+            this.tipo = tipo;
+        }
+    }
 }

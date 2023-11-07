@@ -1,6 +1,6 @@
 package br.com.jfce.apibancotalentos.model;
 
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 public abstract class AbstractEntity{
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
 
     @CreationTimestamp
     private LocalDateTime createdAt;

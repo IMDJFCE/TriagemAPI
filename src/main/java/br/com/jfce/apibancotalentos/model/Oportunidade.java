@@ -20,14 +20,9 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE oportunidade SET deleted_at = CURRENT_TIMESTAMP WHERE oportunidade_id=?")
+@SQLDelete(sql = "UPDATE oportunidade SET deleted_at = CURRENT_TIMESTAMP WHERE id=?")
 @Where(clause = "deleted_at is null")
 public class Oportunidade extends AbstractEntity{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "oportunidade_id")
-    private String id;
 
     @NotBlank
     @Size(max = 100)
@@ -42,13 +37,14 @@ public class Oportunidade extends AbstractEntity{
     @NotBlank
     private String descricao;
 
-    @NotBlank
-    private String triagem;
+    @Enumerated(EnumType.STRING)
+    @NotNull
+    private TipoTriagem triagem;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "oportunidade_habilidade",
-            joinColumns = {@JoinColumn(name = "id_oportunidade", referencedColumnName = "oportunidade_id")},
+            joinColumns = {@JoinColumn(name = "id_oportunidade", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "id_habilidade", referencedColumnName = "habilidade_id")})
     private Set<Habilidade> habilidades;
 
@@ -59,6 +55,18 @@ public class Oportunidade extends AbstractEntity{
 
     @NotBlank
     private String informacoes;
+
+    public enum TipoTriagem {
+        CEGA("Cega"),
+        GENERO("Genero"),
+        NENHUMA("Nenhuma");
+
+        private final String tipo;
+
+        TipoTriagem(String tipo) {
+            this.tipo = tipo;
+        }
+    }
 
     public void update(Oportunidade oportunidade){
         this.setTitulo(oportunidade.getTitulo());

@@ -19,14 +19,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE usuario SET deleted_at = CURRENT_TIMESTAMP WHERE usuario_id=?")
+@SQLDelete(sql = "UPDATE usuario SET deleted_at = CURRENT_TIMESTAMP WHERE id=?")
 @Where(clause = "deleted_at is null")
 public class Usuario extends AbstractEntity{
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "usuario_id")
-    private String id;
 
     @NotBlank
     @Size(max = 100)

@@ -11,11 +11,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Deficiencia {
+public class Prioridade {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "deficiencia_id")
+    @Column(name = "prioridade_id")
     private String id;
 
-    private String descricao;
+    private String ordem;
 }

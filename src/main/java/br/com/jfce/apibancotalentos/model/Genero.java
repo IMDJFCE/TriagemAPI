@@ -7,34 +7,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Convite extends AbstractEntity{
-
+public class Genero {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    @Column(name = "convite_id")
+    @Column(name = "genero_id")
     private String id;
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private Status status;
+    private eGenero genero;
 
-    private LocalDateTime dataEnvio;
+    public enum eGenero {
+        MASCULINO("M"),
+        FEMININO("F"),
+        OUTROS("O");
 
-    public enum Status {
-        PENDENTE("Pendente"),
-        ENVIADO("Enviado");
+        private final String genero;
 
-        private final String status;
-
-        Status(String status) {
-            this.status = status;
+        eGenero(String genero){
+            this.genero = genero;
         }
     }
 }
