@@ -55,4 +55,19 @@ public class Usuario extends AbstractEntity{
             inverseJoinColumns = {@JoinColumn(name = "id_habilidade", referencedColumnName = "habilidade_id")}
     )
     private Set<Habilidade> habilidades;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "raca_id")
+    private Raca raca;
+
+    public void update(Usuario usuario){
+        this.setNome(usuario.getNome());
+        this.setEmail(usuario.getEmail());
+        this.setSenha(usuario.getSenha());
+        this.setDataNascimento(usuario.getDataNascimento());
+        this.setMatricula(usuario.getMatricula());
+        this.setTipo(usuario.getTipo());
+        this.setHabilidades(usuario.getHabilidades());
+        this.raca.setEtnia(usuario.raca.getEtnia());
+    }
 }

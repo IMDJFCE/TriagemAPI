@@ -1,11 +1,14 @@
 package br.com.jfce.apibancotalentos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -20,19 +23,23 @@ public class Raca {
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private eRaca raca;
+    private Etnia etnia;
 
-    public enum eRaca {
+    @OneToMany(mappedBy = "raca")
+    @JsonIgnore
+    private List<Usuario> usuarios;
+
+    public enum Etnia {
         AMARELO("Amarelo"),
         INDIGENA("Indígena"),
         BRANCO("Branco"),
         PARDO("Pardo"),
         PRETO("Preto");
 
-        private final String raca;
+        private final String etnia;
 
-        eRaca(String raca) {
-            this.raca = raca;
+        Etnia(String etnia) {
+            this.etnia = etnia;
         }
     }
 }

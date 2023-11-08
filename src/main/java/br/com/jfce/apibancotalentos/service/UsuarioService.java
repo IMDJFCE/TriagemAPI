@@ -11,7 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,12 +59,8 @@ public class UsuarioService{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
-        Usuario usuario = usuarioMapper.toUsuario(usuarioRequest);
-        usuario.setId(id);
-        usuario.setCreatedAt(usuarioOptional.get().getCreatedAt());
-        usuario.setDeletedAt(usuarioOptional.get().getDeletedAt());
-        usuario.setUpdatedAt(LocalDateTime.now());
-        usuario.setSenha(usuarioOptional.get().getSenha());
+        Usuario usuario = usuarioOptional.get();
+        usuario.update(usuarioMapper.toUsuario(usuarioRequest));
         usuario = repository.save(usuario);
         return usuarioMapper.toUsuarioResponseDTO(usuario);
     }

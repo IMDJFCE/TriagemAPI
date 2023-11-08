@@ -1,6 +1,7 @@
 package br.com.jfce.apibancotalentos.dto;
 
 import br.com.jfce.apibancotalentos.model.Habilidade;
+import br.com.jfce.apibancotalentos.model.Raca;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -35,6 +36,8 @@ public class UsuarioRequestDTO {
     @NotBlank
     @Size(max = 15)
     private String tipo;
+
+    private Raca raca;
 
     private Set<Habilidade> habilidades;
 }
