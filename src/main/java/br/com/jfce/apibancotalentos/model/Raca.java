@@ -8,8 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,27 +17,24 @@ public class Raca {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "raca_id")
+    @JsonIgnore
     private String id;
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private Etnia etnia;
+    private Descricao descricao;
 
-    @OneToMany(mappedBy = "raca")
-    @JsonIgnore
-    private List<Usuario> usuarios;
-
-    public enum Etnia {
+    public enum Descricao {
         AMARELO("Amarelo"),
         INDIGENA("Indígena"),
         BRANCO("Branco"),
         PARDO("Pardo"),
         PRETO("Preto");
 
-        private final String etnia;
+        private final String descricao;
 
-        Etnia(String etnia) {
-            this.etnia = etnia;
+        Descricao(String descricao) {
+            this.descricao = descricao;
         }
     }
 }
