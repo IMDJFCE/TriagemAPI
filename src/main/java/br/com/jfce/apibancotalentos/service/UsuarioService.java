@@ -3,7 +3,9 @@ package br.com.jfce.apibancotalentos.service;
 import br.com.jfce.apibancotalentos.dto.UsuarioRequestDTO;
 import br.com.jfce.apibancotalentos.dto.UsuarioResponseDTO;
 import br.com.jfce.apibancotalentos.dto.mapper.UsuarioMapper;
+import br.com.jfce.apibancotalentos.model.Raca;
 import br.com.jfce.apibancotalentos.model.Usuario;
+import br.com.jfce.apibancotalentos.repository.RacaRepository;
 import br.com.jfce.apibancotalentos.repository.UsuarioRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,23 +18,26 @@ import java.util.Optional;
 
 @Service
 public class UsuarioService{
-    private final UsuarioRepository repository;
+    private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
 
-    public UsuarioService(UsuarioRepository repository, UsuarioMapper usuarioMapper) {
-        this.repository = repository;
+    private final RacaRepository racaRepository;
+
+    public UsuarioService(UsuarioRepository repository, UsuarioMapper usuarioMapper, RacaRepository racaRepository) {
+        this.usuarioRepository = repository;
         this.usuarioMapper = usuarioMapper;
+        this.racaRepository = racaRepository;
     }
 
     public List<UsuarioResponseDTO> findAll(){
-        return repository.findAll()
+        return usuarioRepository.findAll()
                 .stream()
                 .map(usuarioMapper::toUsuarioResponseDTO)
                 .toList();
     }
 
     public List<UsuarioResponseDTO> findAll(Pageable page){
-        Page<Usuario> usuarioPage = repository.findAll(page);
+        Page<Usuario> usuarioPage = usuarioRepository.findAll(page);
         List<Usuario> usuarioList = usuarioPage.getContent();
         return usuarioList.stream()
                 .map(usuarioMapper::toUsuarioResponseDTO)
@@ -40,7 +45,7 @@ public class UsuarioService{
     }
 
     public UsuarioResponseDTO getById(String id){
-        Optional<Usuario> usuario = repository.findById(id);
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
         if(usuario.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
@@ -49,29 +54,39 @@ public class UsuarioService{
     }
 
     public UsuarioResponseDTO create(UsuarioRequestDTO usuario){
-        Usuario created = repository.save(usuarioMapper.toUsuario(usuario));
+        this.obterRacaExistente(usuario);
+        Usuario created = usuarioRepository.save(usuarioMapper.toUsuario(usuario));
         return usuarioMapper.toUsuarioResponseDTO(created);
     }
 
     public UsuarioResponseDTO update(String id, UsuarioRequestDTO usuarioRequest){
-        Optional<Usuario> usuarioOptional = repository.findById(id);
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         if(usuarioOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
+        this.obterRacaExistente(usuarioRequest);
         Usuario usuario = usuarioOptional.get();
         usuario.update(usuarioMapper.toUsuario(usuarioRequest));
-        usuario = repository.save(usuario);
+        usuario = usuarioRepository.save(usuario);
         return usuarioMapper.toUsuarioResponseDTO(usuario);
     }
 
     public void delete(String id){
-        Optional<Usuario> usuario = repository.findById(id);
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
 
-        if(usuario.isEmpty()){
+        if(usuarioOptional.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
-        repository.delete(usuario.get());
+        Usuario usuario = usuarioOptional.get();
+        usuarioRepository.delete(usuario);
+    }
+
+    public void obterRacaExistente(UsuarioRequestDTO usuario){
+        Optional<Raca> racaOptional = racaRepository.findByDescricao(usuario.getRaca().getDescricao());
+        if(racaOptional.isPresent()){
+            usuario.setRaca(racaOptional.get());
+        }
     }
 }

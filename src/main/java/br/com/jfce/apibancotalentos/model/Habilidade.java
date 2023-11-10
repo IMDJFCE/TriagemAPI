@@ -22,6 +22,7 @@ public class Habilidade{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "habilidade_id")
+    @JsonIgnore
     private String id;
 
     @NotBlank
