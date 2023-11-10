@@ -1,5 +1,6 @@
 package br.com.jfce.apibancotalentos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -16,21 +17,22 @@ public class Genero {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "genero_id")
+    @JsonIgnore
     private String id;
 
     @Enumerated(EnumType.STRING)
     @NotNull
-    private eGenero genero;
+    private Descricao descricao;
 
-    public enum eGenero {
+    public enum Descricao {
         MASCULINO("M"),
         FEMININO("F"),
         OUTROS("O");
 
-        private final String genero;
+        private final String descricao;
 
-        eGenero(String genero){
-            this.genero = genero;
+        Descricao(String descricao){
+            this.descricao = descricao;
         }
     }
 }

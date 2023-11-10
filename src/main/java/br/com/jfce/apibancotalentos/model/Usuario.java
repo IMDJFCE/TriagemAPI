@@ -60,6 +60,10 @@ public class Usuario extends AbstractEntity{
     @JoinColumn(name = "raca_id")
     private Raca raca;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "genero_id")
+    private Genero genero;
+
     public void update(Usuario usuario){
         this.setNome(usuario.getNome());
         this.setEmail(usuario.getEmail());
@@ -69,5 +73,6 @@ public class Usuario extends AbstractEntity{
         this.setTipo(usuario.getTipo());
         this.setHabilidades(usuario.getHabilidades());
         this.setRaca(usuario.getRaca());
+        this.setGenero(usuario.getGenero());
     }
 }

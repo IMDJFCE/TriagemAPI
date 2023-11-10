@@ -3,8 +3,10 @@ package br.com.jfce.apibancotalentos.service;
 import br.com.jfce.apibancotalentos.dto.UsuarioRequestDTO;
 import br.com.jfce.apibancotalentos.dto.UsuarioResponseDTO;
 import br.com.jfce.apibancotalentos.dto.mapper.UsuarioMapper;
+import br.com.jfce.apibancotalentos.model.Genero;
 import br.com.jfce.apibancotalentos.model.Raca;
 import br.com.jfce.apibancotalentos.model.Usuario;
+import br.com.jfce.apibancotalentos.repository.GeneroRepository;
 import br.com.jfce.apibancotalentos.repository.RacaRepository;
 import br.com.jfce.apibancotalentos.repository.UsuarioRepository;
 import org.springframework.data.domain.Page;
@@ -23,10 +25,13 @@ public class UsuarioService{
 
     private final RacaRepository racaRepository;
 
-    public UsuarioService(UsuarioRepository repository, UsuarioMapper usuarioMapper, RacaRepository racaRepository) {
-        this.usuarioRepository = repository;
+    private final GeneroRepository generoRepository;
+
+    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper, RacaRepository racaRepository, GeneroRepository generoRepository) {
+        this.usuarioRepository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
         this.racaRepository = racaRepository;
+        this.generoRepository = generoRepository;
     }
 
     public List<UsuarioResponseDTO> findAll(){
@@ -54,7 +59,7 @@ public class UsuarioService{
     }
 
     public UsuarioResponseDTO create(UsuarioRequestDTO usuario){
-        this.obterRacaExistente(usuario);
+        this.obterAtributosExistentes(usuario);
         Usuario created = usuarioRepository.save(usuarioMapper.toUsuario(usuario));
         return usuarioMapper.toUsuarioResponseDTO(created);
     }
@@ -65,7 +70,7 @@ public class UsuarioService{
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
         }
 
-        this.obterRacaExistente(usuarioRequest);
+        this.obterAtributosExistentes(usuarioRequest);
         Usuario usuario = usuarioOptional.get();
         usuario.update(usuarioMapper.toUsuario(usuarioRequest));
         usuario = usuarioRepository.save(usuario);
@@ -83,8 +88,11 @@ public class UsuarioService{
         usuarioRepository.delete(usuario);
     }
 
-    public void obterRacaExistente(UsuarioRequestDTO usuario){
+    public void obterAtributosExistentes(UsuarioRequestDTO usuario){
         Optional<Raca> racaOptional = racaRepository.findByDescricao(usuario.getRaca().getDescricao());
         racaOptional.ifPresent(usuario::setRaca);
+
+        Optional<Genero> generoOptional = generoRepository.findByDescricao(usuario.getGenero().getDescricao());
+        generoOptional.ifPresent(usuario::setGenero);
     }
 }
