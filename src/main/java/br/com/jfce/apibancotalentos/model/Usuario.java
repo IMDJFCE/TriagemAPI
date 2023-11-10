@@ -56,6 +56,14 @@ public class Usuario extends AbstractEntity{
     )
     private Set<Habilidade> habilidades;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "usuario_deficiencia",
+            joinColumns = {@JoinColumn(name = "id_usuario", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "id_deficiencia", referencedColumnName = "deficiencia_id")}
+    )
+    private Set<Deficiencia> deficiencias;
+
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "raca_id")
     private Raca raca;
@@ -72,6 +80,7 @@ public class Usuario extends AbstractEntity{
         this.setMatricula(usuario.getMatricula());
         this.setTipo(usuario.getTipo());
         this.setHabilidades(usuario.getHabilidades());
+        this.setDeficiencias(usuario.getDeficiencias());
         this.setRaca(usuario.getRaca());
         this.setGenero(usuario.getGenero());
     }
