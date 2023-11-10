@@ -27,7 +27,7 @@ public class Habilidade{
 
     @NotBlank
     @Size(max = 50)
-    private String habilidade;
+    private String nome;
 
     @Enumerated(EnumType.STRING)
     @NotNull
