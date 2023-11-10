@@ -85,8 +85,6 @@ public class UsuarioService{
 
     public void obterRacaExistente(UsuarioRequestDTO usuario){
         Optional<Raca> racaOptional = racaRepository.findByDescricao(usuario.getRaca().getDescricao());
-        if(racaOptional.isPresent()){
-            usuario.setRaca(racaOptional.get());
-        }
+        racaOptional.ifPresent(usuario::setRaca);
     }
 }
