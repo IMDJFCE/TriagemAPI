@@ -59,6 +59,11 @@ public class UsuarioService{
     }
 
     public UsuarioResponseDTO create(UsuarioRequestDTO usuario){
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(usuario.getEmail());
+        if(usuarioOptional.isPresent()){
+            throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "E-mail já cadastrado!");
+        }
+
         this.obterAtributosExistentes(usuario);
         Usuario created = usuarioRepository.save(usuarioMapper.toUsuario(usuario));
         return usuarioMapper.toUsuarioResponseDTO(created);
@@ -88,7 +93,7 @@ public class UsuarioService{
         usuarioRepository.delete(usuario);
     }
 
-    public void obterAtributosExistentes(UsuarioRequestDTO usuario){
+    private void obterAtributosExistentes(UsuarioRequestDTO usuario){
         Optional<Raca> racaOptional = racaRepository.findByDescricao(usuario.getRaca().getDescricao());
         racaOptional.ifPresent(usuario::setRaca);
 
