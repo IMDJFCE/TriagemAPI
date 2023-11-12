@@ -12,7 +12,7 @@ import lombok.Data;
 public class HabilidadeRequestDTO {
     @NotBlank
     @Size(max = 50)
-    private String habilidade;
+    private String nome;
 
     @Enumerated(EnumType.STRING)
     @NotNull

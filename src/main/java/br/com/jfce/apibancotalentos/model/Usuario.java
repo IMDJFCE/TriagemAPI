@@ -48,7 +48,7 @@ public class Usuario extends AbstractEntity{
     @Size(max = 15)
     private String tipo;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "usuario_habilidade",
             joinColumns = {@JoinColumn(name = "id_usuario", referencedColumnName = "id")},
@@ -79,7 +79,6 @@ public class Usuario extends AbstractEntity{
         this.setDataNascimento(usuario.getDataNascimento());
         this.setMatricula(usuario.getMatricula());
         this.setTipo(usuario.getTipo());
-        this.setHabilidades(usuario.getHabilidades());
         this.setDeficiencias(usuario.getDeficiencias());
         this.setRaca(usuario.getRaca());
         this.setGenero(usuario.getGenero());

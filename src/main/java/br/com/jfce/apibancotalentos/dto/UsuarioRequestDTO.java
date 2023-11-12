@@ -43,7 +43,7 @@ public class UsuarioRequestDTO {
 
     private Raca raca;
 
-    private Set<Habilidade> habilidades;
+    private Set<HabilidadeRequestDTO> habilidades;
 
     private Set<Deficiencia> deficiencias;
 }
