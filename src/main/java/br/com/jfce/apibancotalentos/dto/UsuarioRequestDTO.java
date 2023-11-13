@@ -1,6 +1,5 @@
 package br.com.jfce.apibancotalentos.dto;
 
-import br.com.jfce.apibancotalentos.model.Deficiencia;
 import br.com.jfce.apibancotalentos.model.Genero;
 import br.com.jfce.apibancotalentos.model.Raca;
 import jakarta.validation.constraints.Email;
@@ -44,5 +43,5 @@ public class UsuarioRequestDTO {
 
     private Set<HabilidadeRequestDTO> habilidades;
 
-    private Set<Deficiencia> deficiencias;
+    private Set<DeficienciaRequestDTO> deficiencias;
 }

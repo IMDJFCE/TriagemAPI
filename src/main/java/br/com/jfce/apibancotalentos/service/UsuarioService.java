@@ -1,18 +1,14 @@
 package br.com.jfce.apibancotalentos.service;
 
+import br.com.jfce.apibancotalentos.dto.DeficienciaRequestDTO;
 import br.com.jfce.apibancotalentos.dto.HabilidadeRequestDTO;
 import br.com.jfce.apibancotalentos.dto.UsuarioRequestDTO;
 import br.com.jfce.apibancotalentos.dto.UsuarioResponseDTO;
+import br.com.jfce.apibancotalentos.dto.mapper.DeficienciaMapper;
 import br.com.jfce.apibancotalentos.dto.mapper.HabilidadeMapper;
 import br.com.jfce.apibancotalentos.dto.mapper.UsuarioMapper;
-import br.com.jfce.apibancotalentos.model.Genero;
-import br.com.jfce.apibancotalentos.model.Habilidade;
-import br.com.jfce.apibancotalentos.model.Raca;
-import br.com.jfce.apibancotalentos.model.Usuario;
-import br.com.jfce.apibancotalentos.repository.GeneroRepository;
-import br.com.jfce.apibancotalentos.repository.HabilidadeRepository;
-import br.com.jfce.apibancotalentos.repository.RacaRepository;
-import br.com.jfce.apibancotalentos.repository.UsuarioRepository;
+import br.com.jfce.apibancotalentos.model.*;
+import br.com.jfce.apibancotalentos.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -28,22 +24,22 @@ import java.util.Set;
 public class UsuarioService{
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
-
     private final RacaRepository racaRepository;
-
     private final GeneroRepository generoRepository;
-
     private final HabilidadeRepository habilidadeRepository;
-
     private final HabilidadeMapper habilidadeMapper;
+    private final DeficienciaRepository deficienciaRepository;
+    private final DeficienciaMapper deficienciaMapper;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper, RacaRepository racaRepository, GeneroRepository generoRepository, HabilidadeRepository habilidadeRepository, HabilidadeMapper habilidadeMapper) {
+    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper, RacaRepository racaRepository, GeneroRepository generoRepository, HabilidadeRepository habilidadeRepository, HabilidadeMapper habilidadeMapper, DeficienciaRepository deficienciaRepository, DeficienciaMapper deficienciaMapper) {
         this.usuarioRepository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
         this.racaRepository = racaRepository;
         this.generoRepository = generoRepository;
         this.habilidadeRepository = habilidadeRepository;
         this.habilidadeMapper = habilidadeMapper;
+        this.deficienciaRepository = deficienciaRepository;
+        this.deficienciaMapper = deficienciaMapper;
     }
 
     public List<UsuarioResponseDTO> findAll(){
@@ -70,15 +66,16 @@ public class UsuarioService{
         return usuarioMapper.toUsuarioResponseDTO(usuario.get());
     }
 
-    public UsuarioResponseDTO create(UsuarioRequestDTO usuario){
-        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(usuario.getEmail());
+    public UsuarioResponseDTO create(UsuarioRequestDTO usuarioRequest){
+        Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(usuarioRequest.getEmail());
         if(usuarioOptional.isPresent()){
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "E-mail já cadastrado!");
         }
 
-        this.obterAtributosExistentes(usuario);
-        Usuario created = usuarioMapper.toUsuario(usuario);
-        created.setHabilidades(this.manipularHabilidades(usuario.getHabilidades()));
+        this.obterAtributosExistentes(usuarioRequest);
+        Usuario created = usuarioMapper.toUsuario(usuarioRequest);
+        created.setHabilidades(this.manipularHabilidades(usuarioRequest.getHabilidades()));
+        created.setDeficiencias(this.manipularDeficiencias(usuarioRequest.getDeficiencias()));
         created = usuarioRepository.save(created);
         return usuarioMapper.toUsuarioResponseDTO(created);
     }
@@ -93,6 +90,7 @@ public class UsuarioService{
         Usuario usuario = usuarioOptional.get();
         usuario.update(usuarioMapper.toUsuario(usuarioRequest));
         usuario.setHabilidades(this.manipularHabilidades(usuarioRequest.getHabilidades()));
+        usuario.setDeficiencias(this.manipularDeficiencias(usuarioRequest.getDeficiencias()));
         usuario = usuarioRepository.save(usuario);
         return usuarioMapper.toUsuarioResponseDTO(usuario);
     }
@@ -129,5 +127,20 @@ public class UsuarioService{
             }
         }
         return habilidadesExistentes;
+    }
+
+    private Set<Deficiencia> manipularDeficiencias(Set<DeficienciaRequestDTO> deficienciaRequestDTOS){
+        Set<Deficiencia> deficienciasExistentes = new HashSet<>();
+        for(DeficienciaRequestDTO deficiencia : deficienciaRequestDTOS) {
+            Optional<Deficiencia> deficienciaOptional = deficienciaRepository.findByDescricao(deficiencia.getDescricao());
+            if (deficienciaOptional.isPresent()) {
+                deficienciasExistentes.add(deficienciaOptional.get());
+            }else{
+                Deficiencia deficienciaCriada = deficienciaMapper.toDeficiencia(deficiencia);
+                deficienciaCriada = deficienciaRepository.save(deficienciaCriada);
+                deficienciasExistentes.add(deficienciaCriada);
+            }
+        }
+        return deficienciasExistentes;
     }
 }
