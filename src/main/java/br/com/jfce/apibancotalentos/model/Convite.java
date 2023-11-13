@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Convite extends AbstractEntity{
+public class Convite{
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -26,6 +26,14 @@ public class Convite extends AbstractEntity{
     private Status status;
 
     private LocalDateTime dataEnvio;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "oportunidade_id")
+    private Oportunidade oportunidade;
 
     public enum Status {
         PENDENTE("Pendente"),
