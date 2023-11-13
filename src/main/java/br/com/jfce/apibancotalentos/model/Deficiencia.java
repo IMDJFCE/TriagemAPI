@@ -16,6 +16,5 @@ public class Deficiencia {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "deficiencia_id")
     private String id;
-
     private String descricao;
 }

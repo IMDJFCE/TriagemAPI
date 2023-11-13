@@ -15,21 +15,21 @@ import lombok.Setter;
 @Setter
 public class Raca {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "raca_id")
     @JsonIgnore
-    private String id;
+    private Long id;
 
     @Enumerated(EnumType.STRING)
     @NotNull
     private Descricao descricao;
 
     public enum Descricao {
-        AMARELO("Amarelo"),
+        AMARELA("Amarela"),
         INDIGENA("Indígena"),
-        BRANCO("Branco"),
-        PARDO("Pardo"),
-        PRETO("Preto");
+        BRANCA("Branca"),
+        PARDA("Parda"),
+        PRETA("Preta");
 
         private final String descricao;
 
