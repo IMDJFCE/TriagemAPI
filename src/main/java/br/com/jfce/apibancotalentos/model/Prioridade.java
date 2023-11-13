@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,4 +20,32 @@ public class Prioridade {
     private String id;
 
     private String ordem;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "oportunidade_id")
+    private Oportunidade oportunidade;
+
+    @ManyToMany
+    @JoinTable(
+            name = "deficiencia_prioridade",
+            joinColumns = {@JoinColumn(name = "id_prioridade", referencedColumnName = "prioridade_id")},
+            inverseJoinColumns = {@JoinColumn(name = "id_deficiencia", referencedColumnName = "deficiencia_id")}
+    )
+    private Set<Deficiencia> habilidades;
+
+    @ManyToMany
+    @JoinTable(
+            name = "raca_prioridade",
+            joinColumns = {@JoinColumn(name = "id_prioridade", referencedColumnName = "prioridade_id")},
+            inverseJoinColumns = {@JoinColumn(name = "id_raca", referencedColumnName = "raca_id")}
+    )
+    private Set<Raca> racas;
+
+    @ManyToMany
+    @JoinTable(
+            name = "genero_prioridade",
+            joinColumns = {@JoinColumn(name = "id_prioridade", referencedColumnName = "prioridade_id")},
+            inverseJoinColumns = {@JoinColumn(name = "id_genero", referencedColumnName = "genero_id")}
+    )
+    private Set<Genero> generos;
 }
