@@ -41,7 +41,7 @@ public class Oportunidade extends AbstractEntity{
     @NotNull
     private TipoTriagem triagem;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany
     @JoinTable(
             name = "oportunidade_habilidade",
             joinColumns = {@JoinColumn(name = "id_oportunidade", referencedColumnName = "id")},
@@ -74,7 +74,6 @@ public class Oportunidade extends AbstractEntity{
         this.setDataFinal(oportunidade.getDataFinal());
         this.setDescricao(oportunidade.getDescricao());
         this.setTriagem(oportunidade.getTriagem());
-        this.setHabilidades(oportunidade.getHabilidades());
         this.setEmail(oportunidade.getEmail());
         this.setInformacoes(oportunidade.getInformacoes());
     }

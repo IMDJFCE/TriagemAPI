@@ -1,6 +1,5 @@
 package br.com.jfce.apibancotalentos.dto;
 
-import br.com.jfce.apibancotalentos.model.Habilidade;
 import br.com.jfce.apibancotalentos.model.Oportunidade;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -32,7 +31,7 @@ public class OportunidadeRequestDTO {
     @NotNull
     private Oportunidade.TipoTriagem triagem;
 
-    private Set<Habilidade> habilidades;
+    private Set<HabilidadeRequestDTO> habilidades;
 
     @NotBlank
     @Email

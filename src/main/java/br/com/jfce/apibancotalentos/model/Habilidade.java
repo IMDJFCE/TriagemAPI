@@ -1,6 +1,5 @@
 package br.com.jfce.apibancotalentos.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -9,8 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,10 +28,6 @@ public class Habilidade{
     @Enumerated(EnumType.STRING)
     @NotNull
     private Tipo tipo;
-
-    @ManyToMany(mappedBy = "habilidades")
-    @JsonIgnore
-    private Set<Oportunidade> oportunidades;
 
     public enum Tipo {
         TECNICA("T"),
