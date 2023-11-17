@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -59,6 +60,10 @@ public class OportunidadeService{
     }
 
     public OportunidadeResponseDTO create(OportunidadeRequestDTO oportunidadeRequest){
+        if(this.verificarDatas(oportunidadeRequest.getDataInicial(), oportunidadeRequest.getDataFinal())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data inválida!");
+        }
+
         Oportunidade created = oportunidadeMapper.toOportunidade(oportunidadeRequest);
         created.setHabilidades(this.manipularHabilidades(oportunidadeRequest.getHabilidades()));
         created = oportunidadeRepository.save(created);
@@ -66,6 +71,10 @@ public class OportunidadeService{
     }
 
     public OportunidadeResponseDTO update(String id, OportunidadeRequestDTO oportunidadeRequest){
+        if(this.verificarDatas(oportunidadeRequest.getDataInicial(), oportunidadeRequest.getDataFinal())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data inválida!");
+        }
+
         Optional<Oportunidade> oportunidadeOptional = oportunidadeRepository.findById(id);
         if(oportunidadeOptional.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
@@ -100,5 +109,10 @@ public class OportunidadeService{
             }
         }
         return habilidadesExistentes;
+    }
+
+    private boolean verificarDatas(LocalDate dataInicial, LocalDate dataFinal){
+        LocalDate dataAtual = LocalDate.now();
+        return dataAtual.isAfter(dataInicial) || dataAtual.isAfter(dataFinal) || dataInicial.isAfter(dataFinal);
     }
 }
