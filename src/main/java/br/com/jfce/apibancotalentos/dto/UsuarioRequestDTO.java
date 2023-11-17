@@ -33,10 +33,6 @@ public class UsuarioRequestDTO {
     @Size(max = 50)
     private String matricula;
 
-    @NotBlank
-    @Size(max = 15)
-    private String tipo;
-
     private Genero genero;
 
     private Raca raca;

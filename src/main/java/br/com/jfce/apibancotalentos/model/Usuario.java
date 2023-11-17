@@ -78,7 +78,6 @@ public class Usuario extends AbstractEntity{
         this.setSenha(usuario.getSenha());
         this.setDataNascimento(usuario.getDataNascimento());
         this.setMatricula(usuario.getMatricula());
-        this.setTipo(usuario.getTipo());
         this.setRaca(usuario.getRaca());
         this.setGenero(usuario.getGenero());
     }

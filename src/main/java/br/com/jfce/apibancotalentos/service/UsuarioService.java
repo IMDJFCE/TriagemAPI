@@ -79,6 +79,7 @@ public class UsuarioService{
 
         this.obterAtributosExistentes(usuarioRequest);
         Usuario created = usuarioMapper.toUsuario(usuarioRequest);
+        created.setTipo("Candidato");
         created.setHabilidades(this.manipularHabilidades(usuarioRequest.getHabilidades()));
         created.setDeficiencias(this.manipularDeficiencias(usuarioRequest.getDeficiencias()));
         created = usuarioRepository.save(created);
