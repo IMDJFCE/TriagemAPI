@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -72,6 +73,10 @@ public class UsuarioService{
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "E-mail já cadastrado!");
         }
 
+        if(this.verificarData(usuarioRequest.getDataNascimento())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data de nascimento inválida!");
+        }
+
         this.obterAtributosExistentes(usuarioRequest);
         Usuario created = usuarioMapper.toUsuario(usuarioRequest);
         created.setHabilidades(this.manipularHabilidades(usuarioRequest.getHabilidades()));
@@ -84,6 +89,10 @@ public class UsuarioService{
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         if(usuarioOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
+        }
+
+        if(this.verificarData(usuarioRequest.getDataNascimento())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data de nascimento inválida!");
         }
 
         this.obterAtributosExistentes(usuarioRequest);
@@ -142,5 +151,13 @@ public class UsuarioService{
             }
         }
         return deficienciasExistentes;
+    }
+
+    private boolean verificarData(LocalDate dataNascimentoUsuario){
+        LocalDate dataAtual = LocalDate.now();
+        if(dataAtual.isBefore(dataNascimentoUsuario)){
+            return true;
+        }
+        return false;
     }
 }
