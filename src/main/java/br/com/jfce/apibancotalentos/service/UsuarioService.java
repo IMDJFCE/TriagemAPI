@@ -155,9 +155,6 @@ public class UsuarioService{
 
     private boolean verificarData(LocalDate dataNascimentoUsuario){
         LocalDate dataAtual = LocalDate.now();
-        if(dataAtual.isBefore(dataNascimentoUsuario)){
-            return true;
-        }
-        return false;
+        return dataAtual.isBefore(dataNascimentoUsuario);
     }
 }
