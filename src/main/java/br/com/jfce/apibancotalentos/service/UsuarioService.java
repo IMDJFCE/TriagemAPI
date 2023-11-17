@@ -68,13 +68,13 @@ public class UsuarioService{
     }
 
     public UsuarioResponseDTO create(UsuarioRequestDTO usuarioRequest){
+        if(this.verificarData(usuarioRequest.getDataNascimento())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data de nascimento inválida!");
+        }
+
         Optional<Usuario> usuarioOptional = usuarioRepository.findByEmail(usuarioRequest.getEmail());
         if(usuarioOptional.isPresent()){
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY, "E-mail já cadastrado!");
-        }
-
-        if(this.verificarData(usuarioRequest.getDataNascimento())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data de nascimento inválida!");
         }
 
         this.obterAtributosExistentes(usuarioRequest);
@@ -86,13 +86,13 @@ public class UsuarioService{
     }
 
     public UsuarioResponseDTO update(String id, UsuarioRequestDTO usuarioRequest){
+        if(this.verificarData(usuarioRequest.getDataNascimento())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data de nascimento inválida!");
+        }
+
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         if(usuarioOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found");
-        }
-
-        if(this.verificarData(usuarioRequest.getDataNascimento())){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Data de nascimento inválida!");
         }
 
         this.obterAtributosExistentes(usuarioRequest);
