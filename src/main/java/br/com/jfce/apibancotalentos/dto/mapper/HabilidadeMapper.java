@@ -1,7 +1,6 @@
 package br.com.jfce.apibancotalentos.dto.mapper;
 
 import br.com.jfce.apibancotalentos.dto.HabilidadeRequestDTO;
-import br.com.jfce.apibancotalentos.dto.HabilidadeResponseDTO;
 import br.com.jfce.apibancotalentos.model.Habilidade;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
@@ -16,9 +15,5 @@ public class HabilidadeMapper {
 
     public Habilidade toHabilidade(HabilidadeRequestDTO dto){
         return this.mapper.map(dto, Habilidade.class);
-    }
-
-    public HabilidadeResponseDTO toHabilidadeResponseDTO(Habilidade habilidade){
-        return this.mapper.map(habilidade, HabilidadeResponseDTO.class);
     }
 }

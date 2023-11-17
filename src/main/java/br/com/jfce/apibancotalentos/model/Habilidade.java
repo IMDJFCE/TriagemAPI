@@ -17,9 +17,9 @@ import lombok.Setter;
 public class Habilidade{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "habilidade_id")
-    private String id;
+    private Long id;
 
     @NotBlank
     @Size(max = 50)

@@ -6,6 +6,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.Optional;
 
-public interface HabilidadeRepository extends JpaRepository<Habilidade, String>, PagingAndSortingRepository<Habilidade, String> {
+public interface HabilidadeRepository extends JpaRepository<Habilidade, Long>, PagingAndSortingRepository<Habilidade, Long> {
     Optional<Habilidade> findByNome(String nome);
 }
