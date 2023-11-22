@@ -3,12 +3,12 @@ package br.com.jfce.apibancotalentos.service;
 import br.com.jfce.apibancotalentos.dto.HabilidadeRequestDTO;
 import br.com.jfce.apibancotalentos.dto.OportunidadeRequestDTO;
 import br.com.jfce.apibancotalentos.dto.OportunidadeResponseDTO;
+import br.com.jfce.apibancotalentos.dto.UsuarioRequestDTO;
+import br.com.jfce.apibancotalentos.dto.mapper.DeficienciaMapper;
 import br.com.jfce.apibancotalentos.dto.mapper.HabilidadeMapper;
 import br.com.jfce.apibancotalentos.dto.mapper.OportunidadeMapper;
-import br.com.jfce.apibancotalentos.model.Habilidade;
-import br.com.jfce.apibancotalentos.model.Oportunidade;
-import br.com.jfce.apibancotalentos.repository.HabilidadeRepository;
-import br.com.jfce.apibancotalentos.repository.OportunidadeRepository;
+import br.com.jfce.apibancotalentos.model.*;
+import br.com.jfce.apibancotalentos.repository.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -27,12 +27,20 @@ public class OportunidadeService{
     private final OportunidadeMapper oportunidadeMapper;
     private final HabilidadeRepository habilidadeRepository;
     private final HabilidadeMapper habilidadeMapper;
+    private final GeneroRepository generoRepository;
+    private final RacaRepository racaRepository;
+    private final DeficienciaRepository deficienciaRepository;
+    private final DeficienciaMapper deficienciaMapper;
 
-    public OportunidadeService(OportunidadeRepository oportunidadeRepository, OportunidadeMapper oportunidadeMapper, HabilidadeRepository habilidadeRepository, HabilidadeMapper habilidadeMapper) {
+    public OportunidadeService(OportunidadeRepository oportunidadeRepository, OportunidadeMapper oportunidadeMapper, HabilidadeRepository habilidadeRepository, HabilidadeMapper habilidadeMapper, GeneroRepository generoRepository, RacaRepository racaRepository, DeficienciaRepository deficienciaRepository, DeficienciaMapper deficienciaMapper) {
         this.oportunidadeRepository = oportunidadeRepository;
         this.oportunidadeMapper = oportunidadeMapper;
         this.habilidadeRepository = habilidadeRepository;
         this.habilidadeMapper = habilidadeMapper;
+        this.generoRepository = generoRepository;
+        this.racaRepository = racaRepository;
+        this.deficienciaRepository = deficienciaRepository;
+        this.deficienciaMapper = deficienciaMapper;
     }
 
     public List<OportunidadeResponseDTO> findAll(){
@@ -65,6 +73,7 @@ public class OportunidadeService{
         }
 
         Oportunidade created = oportunidadeMapper.toOportunidade(oportunidadeRequest);
+        this.obterAtributosExistentes(created);
         created.setHabilidades(this.manipularHabilidades(oportunidadeRequest.getHabilidades()));
         created = oportunidadeRepository.save(created);
         return oportunidadeMapper.toOportunidadeResponseDTO(created);
@@ -81,6 +90,7 @@ public class OportunidadeService{
         }
 
         Oportunidade oportunidade = oportunidadeOptional.get();
+        this.obterAtributosExistentes(oportunidade);
         oportunidade.update(oportunidadeMapper.toOportunidade(oportunidadeRequest));
         oportunidade.setHabilidades(this.manipularHabilidades(oportunidadeRequest.getHabilidades()));
         oportunidade = oportunidadeRepository.save(oportunidade);
@@ -114,5 +124,18 @@ public class OportunidadeService{
     private boolean verificarDatas(LocalDate dataInicial, LocalDate dataFinal){
         LocalDate dataAtual = LocalDate.now();
         return dataAtual.isAfter(dataInicial) || dataAtual.isAfter(dataFinal) || dataInicial.isAfter(dataFinal);
+    }
+
+    private void obterAtributosExistentes(Oportunidade oportunidade){
+        if(oportunidade.getRaca() != null){
+            Optional<Raca> racaOptional = racaRepository.findByDescricao(oportunidade.getRaca().getDescricao());
+            racaOptional.ifPresent(oportunidade::setRaca);
+        }else if(oportunidade.getGenero() != null){
+            Optional<Genero> generoOptional = generoRepository.findByDescricao(oportunidade.getGenero().getDescricao());
+            generoOptional.ifPresent(oportunidade::setGenero);
+        }else if(oportunidade.getDeficiencia() != null){
+            Optional<Deficiencia> deficienciaOptional = deficienciaRepository.findByDescricao(oportunidade.getDeficiencia().getDescricao());
+            deficienciaOptional.ifPresent(oportunidade::setDeficiencia);
+        }
     }
 }

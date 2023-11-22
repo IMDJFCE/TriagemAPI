@@ -1,7 +1,6 @@
 package br.com.jfce.apibancotalentos.dto;
 
-import br.com.jfce.apibancotalentos.model.Habilidade;
-import br.com.jfce.apibancotalentos.model.Oportunidade;
+import br.com.jfce.apibancotalentos.model.*;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
@@ -44,4 +43,10 @@ public class OportunidadeResponseDTO {
 
     @NotBlank
     private String informacoes;
+
+    private Genero genero;
+
+    private Raca raca;
+
+    private Deficiencia deficiencia;
 }
