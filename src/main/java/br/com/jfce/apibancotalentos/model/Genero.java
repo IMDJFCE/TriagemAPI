@@ -25,14 +25,8 @@ public class Genero {
     private Descricao descricao;
 
     public enum Descricao {
-        MASCULINO("M"),
-        FEMININO("F"),
-        OUTROS("O");
-
-        private final String descricao;
-
-        Descricao(String descricao){
-            this.descricao = descricao;
-        }
+        MASCULINO,
+        FEMININO,
+        OUTROS;
     }
 }

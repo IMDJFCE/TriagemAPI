@@ -25,16 +25,10 @@ public class Raca {
     private Descricao descricao;
 
     public enum Descricao {
-        AMARELO("Amarelo"),
-        INDIGENA("Indígena"),
-        BRANCO("Branco"),
-        PARDO("Pardo"),
-        PRETO("Preto");
-
-        private final String descricao;
-
-        Descricao(String descricao) {
-            this.descricao = descricao;
-        }
+        AMARELO,
+        INDIGENA,
+        BRANCO,
+        PARDO,
+        PRETO;
     }
 }

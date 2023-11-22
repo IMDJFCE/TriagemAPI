@@ -30,13 +30,7 @@ public class Habilidade{
     private Tipo tipo;
 
     public enum Tipo {
-        TECNICA("T"),
-        COMPORTAMENTAL("C");
-
-        private final String tipo;
-
-        Tipo(String tipo) {
-            this.tipo = tipo;
-        }
+        TECNICA,
+        COMPORTAMENTAL;
     }
 }

@@ -36,13 +36,7 @@ public class Convite{
     private Oportunidade oportunidade;
 
     public enum Status {
-        PENDENTE("Pendente"),
-        ENVIADO("Enviado");
-
-        private final String status;
-
-        Status(String status) {
-            this.status = status;
-        }
+        PENDENTE,
+        ENVIADO;
     }
 }
