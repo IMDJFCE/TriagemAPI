@@ -31,6 +31,7 @@ public class OportunidadeRequestDTO {
     @NotNull
     private Oportunidade.TipoTriagem triagem;
 
+    @NotNull
     private Set<HabilidadeRequestDTO> habilidades;
 
     @NotBlank

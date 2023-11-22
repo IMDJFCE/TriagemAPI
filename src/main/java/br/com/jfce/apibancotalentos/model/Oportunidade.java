@@ -46,6 +46,7 @@ public class Oportunidade extends AbstractEntity{
             name = "oportunidade_habilidade",
             joinColumns = {@JoinColumn(name = "id_oportunidade", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "id_habilidade", referencedColumnName = "habilidade_id")})
+    @NotNull
     private Set<Habilidade> habilidades;
 
     @Email
@@ -57,15 +58,9 @@ public class Oportunidade extends AbstractEntity{
     private String informacoes;
 
     public enum TipoTriagem {
-        CEGA("Cega"),
-        GENERO("Genero"),
-        NENHUMA("Nenhuma");
-
-        private final String tipo;
-
-        TipoTriagem(String tipo) {
-            this.tipo = tipo;
-        }
+        CEGA,
+        GENERO,
+        NENHUMA;
     }
 
     public void update(Oportunidade oportunidade){
