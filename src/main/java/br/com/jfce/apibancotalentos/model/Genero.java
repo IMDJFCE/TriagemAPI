@@ -2,7 +2,6 @@ package br.com.jfce.apibancotalentos.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,12 +20,11 @@ public class Genero {
     private String id;
 
     @Enumerated(EnumType.STRING)
-    @NotNull
     private Descricao descricao;
 
     public enum Descricao {
         MASCULINO,
         FEMININO,
-        OUTROS;
+        OUTROS
     }
 }
