@@ -57,22 +57,12 @@ public class Oportunidade extends AbstractEntity{
     @NotBlank
     private String informacoes;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "genero_id")
-    private Genero genero;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "raca_id")
-    private Raca raca;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "deficiencia_id")
-    private Deficiencia deficiencia;
-
     public enum TipoTriagem {
         CEGA,
         GENERO,
-        NENHUMA;
+        RACA,
+        DEFICIENCIA,
+        NENHUMA
     }
 
     public void update(Oportunidade oportunidade){
@@ -83,8 +73,5 @@ public class Oportunidade extends AbstractEntity{
         this.setTriagem(oportunidade.getTriagem());
         this.setEmail(oportunidade.getEmail());
         this.setInformacoes(oportunidade.getInformacoes());
-        this.setGenero(oportunidade.getGenero());
-        this.setRaca(oportunidade.getRaca());
-        this.setDeficiencia(oportunidade.getDeficiencia());
     }
 }

@@ -43,10 +43,4 @@ public class OportunidadeResponseDTO {
 
     @NotBlank
     private String informacoes;
-
-    private Genero genero;
-
-    private Raca raca;
-
-    private Deficiencia deficiencia;
 }
