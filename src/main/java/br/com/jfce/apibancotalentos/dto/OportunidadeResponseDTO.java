@@ -1,8 +1,6 @@
 package br.com.jfce.apibancotalentos.dto;
 
 import br.com.jfce.apibancotalentos.model.*;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -29,10 +27,6 @@ public class OportunidadeResponseDTO {
     @NotBlank
     private String descricao;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private Oportunidade.TipoTriagem triagem;
-
     @NotNull
     private Set<Habilidade> habilidades;
 
@@ -40,7 +34,4 @@ public class OportunidadeResponseDTO {
     @Email
     @Size(max = 70)
     private String email;
-
-    @NotBlank
-    private String informacoes;
 }

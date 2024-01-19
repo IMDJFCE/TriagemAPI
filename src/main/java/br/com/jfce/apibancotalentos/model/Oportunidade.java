@@ -37,10 +37,6 @@ public class Oportunidade extends AbstractEntity{
     @NotBlank
     private String descricao;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private TipoTriagem triagem;
-
     @ManyToMany
     @JoinTable(
             name = "oportunidade_habilidade",
@@ -54,24 +50,11 @@ public class Oportunidade extends AbstractEntity{
     @Size(max = 70)
     private String email;
 
-    @NotBlank
-    private String informacoes;
-
-    public enum TipoTriagem {
-        CEGA,
-        GENERO,
-        RACA,
-        DEFICIENCIA,
-        NENHUMA
-    }
-
     public void update(Oportunidade oportunidade){
         this.setTitulo(oportunidade.getTitulo());
         this.setDataInicial(oportunidade.getDataInicial());
         this.setDataFinal(oportunidade.getDataFinal());
         this.setDescricao(oportunidade.getDescricao());
-        this.setTriagem(oportunidade.getTriagem());
         this.setEmail(oportunidade.getEmail());
-        this.setInformacoes(oportunidade.getInformacoes());
     }
 }
